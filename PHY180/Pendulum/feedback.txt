@@ -1,0 +1,9 @@
+Units for which fitted parameters?
+
+For Q-Factor vs Length:
+- uncertainties barely intersecting the fit
+- uncertainties of coeffectients
+
+All fitted parameters should have units
+
+Look at the varying values for q-factors and find an uncertainty based on std / sqrt(n)
