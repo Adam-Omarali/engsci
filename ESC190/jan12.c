@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+//there is no variable table in c like in python
+//there is only a memory table
+
 int main()
 {
    printf("Hello, world!\n");
@@ -35,6 +38,9 @@ int main()
 
     int *d_address = &d;
     printf("d_address: %ld\n", d_address);
+
+    int d_address_2 = &d;
+    printf(d_address_2 + "\n");
 
     char *s1 = "hello!";
     //this star is apart of the datatype char *
