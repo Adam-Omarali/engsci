@@ -1,4 +1,4 @@
-### Interpreted vs Compiled Languages
+## Interpreted vs Compiled Languages
 
 Python is an interpreted language, meaning writing python file.py runs a script itself that executes code block by block
 
@@ -14,8 +14,18 @@ Typical workflow for high level CS:
 - Figure out the ineffecient part of the program
 - Write that part in C
 
+## To run c
+```bash
+gcc -o build/jan18 jan18.c -lm
+./build/jan18
+```
+gcc: The compiler that converts c code to an executable
+-o path/filename: Specify the name of executable file and where you want it to live
+jan18.c: The c file to compile
+-lm: Linker option (links the math library)
 
-### Memory
+
+## Memory
 An 8Gb computer has $8*10^9$ bytes (aka, memory addresses).
 
 When you have a lot of tabs, all the computer's fast memory is taken up, and it has to store data on the hard drive. 

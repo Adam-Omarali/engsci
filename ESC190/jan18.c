@@ -12,6 +12,7 @@ void f2(int a[]){
 int main()
 {
     int arr[] = {5, 3, 4, 1};
+    //TODO: how is this actually stored so the program knows how to compute size of, especially if int a[] is the same type???
     sizeof(arr); //total number of memory cells occupied by the array (in this case 4 numbers * 4 bytes / number)
 
     int *p_a0 = arr;
