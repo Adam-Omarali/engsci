@@ -23,6 +23,7 @@ int main(){
 
 
     int arr[] = {5, 6, 7};
+    //arr in code gets converted to the address of the first element
     printf("%ld\n", arr); //print the address where the array starts
                             //equal to the addresss of 5
                             //is arr and &arr the same thing?
