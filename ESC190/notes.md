@@ -39,8 +39,50 @@ Different types of values take different amounts of storage:
 - Integers take 4 memory address (starting address + 4)
 - Chars take up one?
 
+### Pointers
+Pointers are a data type which invlove * where the variable store the memory address of another variable.
+
+```c
+int a = 43;
+int *p_a = &a;
+//p_a -> gives the address where a is stored
+//*p_a -> gives the value at the address of a
+//&p_a -> gives the memory address of p_a
+```
+
+You can set a pointer to 0 but accessing a value of a pointer to 0 will produce a seg fault
+
+
 #### Pointer Arithmetic
 
 int array = {3, 4};
 *(arr + 1) -> pointer arithmetic knows the elements are of type int and will change this is *(arr + 4), so the +x is essentially the xth element in the array
 
+### Strings
+
+```c
+char s[] = "hi";
+char *s = "hi"; //hi is not really of type char *, is type const char *
+//there is something about accessing the value that's diff aswell
+```
+
+Const means you can not change the contents of the string, it is therefore immutible. It may compile if you change a letter an index, but will likely crash.
+
+```c
+char * const s = "hi";
+s = "bye"; //no bueno
+s[0] = 'g'; //okie dokie
+
+const char * const s = "bye"; //no changing this boi
+```
+
+### Malloc
+Malloc is a way to allocate memory to store items in the future. This is useful since arrays are fixed size.
+```c
+int *block_int = (int *)malloc(sizeof(int) * 150) //set aside space for 150 integers
+                                                // cast the return value of malloc into int * because it doesn't know what type it is
+                                                //returns the address of where its stored
+```
+
+### Python
+When passing values into functions, python always send the reference, and values are always copied. 

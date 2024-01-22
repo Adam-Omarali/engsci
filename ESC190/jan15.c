@@ -26,7 +26,7 @@ int main(){
     //arr in code gets converted to the address of the first element
     printf("%ld\n", arr); //print the address where the array starts
                             //equal to the addresss of 5
-                            //is arr and &arr the same thing?
+                            //is arr and &arr the same thing - yep!
                             //yes is arr is the address of where the array starts and &arr -> &(a+0)
     printf("%d\n", *arr); //prints the value 5 by going to the address of 5
 
