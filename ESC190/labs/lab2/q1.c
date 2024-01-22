@@ -4,7 +4,7 @@
 void takeStr(char **p_c, int * p_add) //address of a pointer to char, address of an iont
 {
     int strlen;
-    scanf("%d\n", &strlen);
+    scanf("\n%d", &strlen);
     strlen++;
     *p_c = (char *)malloc(sizeof(char) * strlen);
     *p_add = strlen;

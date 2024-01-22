@@ -17,6 +17,10 @@ int my_strcmp(char *str1, char *str2)
     return 1;
 }
 
+//Explain the difference between s1 == s2, *s1 == *s2, and strcmp(s1, s2)
+//s1 == s2, means the memory addresses are the same
+//*s1 == *s2 means the values at those memory addresses are the same
+
 int main()
 {
     char str1[] = "abcd", str2[] = "xywz", str3[] = "abcd";

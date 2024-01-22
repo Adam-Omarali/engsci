@@ -3,9 +3,9 @@ def binary_search_deluxe(arr, num):
     right = len(arr) - 1
     while left <= right:
         mid = (left + right) // 2
-        if (mid > num):
+        if (arr[mid] > num):
             left = mid + 1
-        elif (mid < num):
+        elif (arr[mid] < num):
             right = mid - 1
         else:
             #found one of the elements at index mid
@@ -16,7 +16,7 @@ def binary_search_deluxe(arr, num):
             while (right < len(arr) and arr[right] == num):
                 right += 1
 
-            print([left + 1, right + 1])
+            return [left + 1, right - 1]
 
             
-binary_search_deluxe([1, 2, 3, 10, 10, 10, 12, 12], 10)
+print(binary_search_deluxe([1, 2, 3, 10, 10, 10, 10, 12, 12], 10))
