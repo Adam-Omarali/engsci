@@ -52,6 +52,9 @@ int *p_a = &a;
 
 You can set a pointer to 0 but accessing a value of a pointer to 0 will produce a seg fault
 
+### Pointer to Pointer (Not Double Pointer!!!)
+Want to make a pointer that points to an address of type int *.
+
 
 #### Pointer Arithmetic
 
@@ -84,5 +87,27 @@ int *block_int = (int *)malloc(sizeof(int) * 150) //set aside space for 150 inte
                                                 //returns the address of where its stored
 ```
 
+For programs running consistently, not freeing up memory means space will keep being allocated
+and as a result there will not be enough memory. These are called memory leaks and is what often causes computer to freeze.
+
+As a result, we need to use free to prevent memory leaks.
+```c
+free(block_int);
+
+block[0]; //undefined behaviour
+```
+
 ### Python
 When passing values into functions, python always send the reference, and values are always copied. 
+
+## Structs
+
+```c
+typdef struct student {
+    char name[200];
+    int age;
+} student;
+
+student students[500];
+student *students_block = (student *)malloc(sizeof(student) * 500);
+```
