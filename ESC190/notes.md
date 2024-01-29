@@ -20,9 +20,30 @@ gcc -o build/jan18 jan18.c -lm
 ./build/jan18
 ```
 gcc: The compiler that converts c code to an executable
--o path/filename: Specify the name of executable file and where you want it to live
+-o path/filename: Specify the name of executable file and where you want it to live (could name jan18.exe or jan18, both will produce an executable)
 jan18.c: The c file to compile
 -lm: Linker option (links the math library)
+
+### Header Files
+Header files are a way of saying, take all this code in a header file and copy to the file I'm including it in.
+```c
+#include "filename.h"
+```
+
+Make sure the file your trying to include is in the same file. Otherwise, the gcc command try to compile, but can't find the included file.
+
+Include math library: tasks.json -> args -> "-lm"
+
+### Pre-processor
+Code that runs before being compiled
+```c
+#include
+#define <name> <value> //search and replace all references of name to value in the code
+#define Cube(b) b*b*b //a macro (way to pre-process a function)
+```
+
+Can cause hard to fix compile errors since there is no type checking
+![](macro_func.png)
 
 
 ## Memory

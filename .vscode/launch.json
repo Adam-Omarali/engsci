@@ -31,8 +31,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/adamomarali/Docs/ENGSCI/ESC190",
-      "program": "/Users/adamomarali/Docs/ENGSCI/ESC190/build/Debug/outDebug"
+      "cwd": "/Users/adamomarali/Docs/ENGSCI/ESC190/labs/lab3",
+      "program": "/Users/adamomarali/Docs/ENGSCI/ESC190/labs/lab3/build/Debug/outDebug"
     }
   ],
   "version": "2.0.0"
