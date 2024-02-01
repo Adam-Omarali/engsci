@@ -132,3 +132,6 @@ typdef struct student {
 student students[500];
 student *students_block = (student *)malloc(sizeof(student) * 500);
 ```
+
+### Storing Structs in Memory
+![](IMG_0218.jpg)
