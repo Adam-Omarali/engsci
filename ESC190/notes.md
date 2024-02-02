@@ -100,6 +100,8 @@ s[0] = 'g'; //okie dokie
 const char * const s = "bye"; //no changing this boi
 ```
 
+strcat(str1, str2) copies the contents of str2 and adds it to str1. Does not check if there is enough memory, and will crash if there is not.
+
 ### Malloc
 Malloc is a way to allocate memory to store items in the future. This is useful since arrays are fixed size.
 ```c
@@ -111,11 +113,19 @@ int *block_int = (int *)malloc(sizeof(int) * 150) //set aside space for 150 inte
 For programs running consistently, not freeing up memory means space will keep being allocated
 and as a result there will not be enough memory. These are called memory leaks and is what often causes computer to freeze.
 
+Malloc will return null if it can't find the right amount of space you specify
+
 As a result, we need to use free to prevent memory leaks.
 ```c
 free(block_int);
 
 block[0]; //undefined behaviour
+```
+
+realloc is a way to make more space for a previously defined block of memory
+```c
+chat *str = (char *)malloc(sizeof(char) * 100)
+str = (char *)realloc(str, sizeof(char) * 200) //may add to previous memory location or copy str to a new location that has enough memory to reallocate
 ```
 
 ### Python
