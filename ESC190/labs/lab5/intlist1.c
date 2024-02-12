@@ -7,10 +7,11 @@
 // Store the address of the new object in *p_IntList
 void create_list_from_data(IntList **p_IntList, int *data_arr, int size)
 {
-    IntList *temp = (IntList *)malloc(sizeof(int) * size);
+    IntList *temp = (IntList *)malloc(sizeof(IntList));
+    temp->data = (int *)malloc(size);
     temp->data = data_arr;
-    temp->size = sizeof(int) * size;
-    temp->capacity = sizeof(int) * size;
+    temp->size = size;
+    temp->capacity = size;
     *p_IntList = temp;
 
 }
@@ -20,12 +21,12 @@ void list_append(IntList *list, int new_elem)
 {
     list->size = list->size + sizeof(int);
     //if capacity is too small, 
-    if(list->size + sizeof(int) < list->capacity)
+    if(list->size > list->capacity)
     {
-        realloc(list->data, list->size);
+        realloc(&(list->data), list->size);
         list->capacity = list->size;
     }
-    list->data[list->size - 1] = new_elem;
+    list->data[list->size / sizeof(int) - 1] = new_elem;
 }
 
 // Insert new_elem at index in list. new_elem should now be at
@@ -36,12 +37,12 @@ void list_append(IntList *list, int new_elem)
 void list_insert(IntList *list, int new_elem, int index)
 {
     list->size = list->size + sizeof(int);
-    if(list->size + sizeof(int) < list->capacity)
+    if(list->size > list->capacity)
     {
-        realloc(list->data, list->capacity * 2);
+        realloc(&(list->data), list->capacity * 2);
         list->capacity = list->capacity * 2;
     }
-    memmove((list->data + index + 1), (list->data + index), list->size - index);
+    memmove((*(list->data) + index + 1), *(list->data )+ index, list->size / sizeof(int) - index - 1);
 
 }
 
@@ -49,7 +50,7 @@ void list_insert(IntList *list, int new_elem, int index)
 
 void list_delete(IntList *list, int index)
 {
-    memmove(list->data + index + 1, list->data + index, list->size - index);
+    memmove(list->data + index + 1, list->data + index, list->size / sizeof(int) - index);
     list->size = list->size - sizeof(int);
 }
 
