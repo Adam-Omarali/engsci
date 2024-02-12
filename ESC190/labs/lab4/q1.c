@@ -2,9 +2,9 @@
 
 int main()
 {
-    int a = 43;
-    int *p_a = a;
-    printf("%ld", *p_a);
+    // int a = 43;
+    // int *p_a = a;
+    // printf("%ld", *p_a);
 
     FILE *fp = fopen("test.txt", "r");
     // if (fp == NULL)
