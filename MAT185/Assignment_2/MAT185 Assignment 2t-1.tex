@@ -1,0 +1,422 @@
+\documentclass[10pt]{article}
+
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{fullwidth}
+\usepackage{graphicx}
+\usepackage[margin=0.6in]{geometry}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage[hidelinks, urlcolor=blue, linkcolor=blue, colorlinks=true]{hyperref} 
+
+\DeclarePairedDelimiterX\set[1]\lbrace\rbrace{\def\given{\;\delimsize\vert\;}#1}
+
+\newcommand{\bcent}{\begin{center}}
+\newcommand{\ecent}{\end{center}}
+\newcommand{\tb}{\textbf}
+\newcommand{\noin}{\noindent}
+\newcommand{\benum}{\begin{enumerate}}
+\newcommand{\eenum}{\end{enumerate}}
+\newcommand{\bitem}{\begin{itemize}}
+\newcommand{\eitem}{\end{itemize}}
+\def\boxx#1{
+    \framebox{
+    \begin{tabular}{c}
+    \\[-1pt]
+    #1 \\
+    \\[-1pt]
+    \end{tabular}
+    }
+}
+
+%%% This command makes a framed box of a chosen height.
+\newcommand{\makenonemptybox}[2]{%
+\par\nobreak\vspace{\ht\strutbox}\noindent
+\setlength{\fboxrule}{0pt} % set this to 0pt to make invisible
+\fbox{%
+\parbox[c][#1][t]{\dimexpr\linewidth-2\fboxsep}{
+  \hrule width \hsize height 0pt
+  #2
+ }%
+}%
+}
+\makeatother    
+
+
+\begin{document}
+
+{\bcent\fontfamily{cmss}\selectfont
+\begin{tabular}{c}
+\textbf{}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\textbf{{\color{red} Due}: 11:59pm, Sunday February 18, 2024}\\\hline
+\end{tabular}\ecent
+}
+
+{\fontfamily{cmss}\selectfont
+\large\bcent\tb{}\\
+\tb{}\\
+\vspace{0pt}
+%\tb{Term Test 1}\\
+
+\tb{\Large MAT185 Linear Algebra}\\
+
+\tb{Assignment 2}
+\ecent}
+
+
+
+\noin{\fontfamily{cmss}\selectfont\tb{\large Instructions:}} \\ %% Fairly standard and designed to save time; however, tweak as necessary.
+
+\noindent Please read the {\bf MAT185 Assignment Policies \& FAQ} document for details on submission policies, collaboration rules and academic integrity, and general instructions. 
+
+\benum
+
+
+\item {\bf Submissions are only accepted by} \href{https://www.gradescope.ca}{Gradescope}. Do not send anything by email.  Late submissions are not accepted under any circumstance. Remember you can resubmit anytime before the deadline. 
+
+\item  {\bf Submit solutions using only this template pdf}.  Your submission should be a single pdf with your full written solutions for each question. If your solution is not written using this template pdf (scanned print or digital) then your submission will not be assessed. Organize your work neatly in the space provided.  Do not submit rough work. 
+
+\item  {\bf Show your work and justify your steps} on every question but do not include extraneous information.  Put your final answer in the box provided, if necessary.  We recommend you write draft solutions on separate pages and afterwards write your polished solutions here on this template.
+
+\item  {\bf You must fill out and sign the academic integrity statement below}; otherwise, you will receive zero for this assignment. 
+
+
+\eenum
+
+\vspace{30pt}
+
+
+\noin{\fontfamily{cmss}\selectfont\tb{\large Academic Integrity Statement:}} \\
+
+%%% Student information
+
+% Student 1
+\fbox{
+\begin{minipage}{\textwidth}
+{
+\vspace{0.2in}
+
+\makebox[\textwidth]{\sffamily Full Name:\enspace\hrulefill}
+
+\vspace{0.2in}
+
+\makebox[\textwidth]{\sffamily Student number:\enspace\hrulefill}
+
+\vspace{0.1in}
+}
+\end{minipage}
+}
+
+\vspace*{0.1in}
+
+% Student 2
+\fbox{
+\begin{minipage}{\textwidth}
+{
+\vspace{0.2in}
+
+\makebox[\textwidth]{\sffamily Full Name:\enspace\hrulefill}
+
+\vspace{0.2in}
+
+\makebox[\textwidth]{\sffamily Student number:\enspace\hrulefill}
+
+\vspace{0.1in}
+}
+\end{minipage}
+}
+~
+
+I confirm that:
+
+\begin{itemize} 
+	\item I have read and followed the policies described in the document {\bf MAT185 Assignment Policies \& FAQ}.
+	\item In particular, I have read and understand the rules for collaboration, and permitted resources on assignments as described in subsection II of the the aforementioned document. I have not violated these rules while completing and writing this assignment. 
+	\item I understand the consequences of violating the University's academic integrity policies as outlined in the \href{http://www.governingcouncil.utoronto.ca/policies/behaveac.htm}{Code of Behaviour on Academic Matters}. I have not violated them while completing and writing this assignment.
+\end{itemize}
+By signing this document, I agree that the statements above are true. 
+
+% You should sign this PDF after compiling. Do not write your signature using LaTeX.
+\vspace{0.2in}
+{\large 
+\makebox[\textwidth]{\sffamily Signatures: 1)\enspace\hrulefill} 
+
+\vspace{0.2in}
+
+\makebox[\textwidth]{\sffamily \hspace*{20mm} 2)\enspace\hrulefill} 
+
+}
+
+\vfill
+
+
+\pagebreak
+
+%%% Questions
+
+\noin {\bf Preamble}: An application of linear algebra to calculus. \\
+
+\noin Recall the technique of partial fractions decomposition to evaluate the integral of rational functions.  For example, suppose we would like to evaluate the integral
+$$\int \frac{7x^2+7}{(x^2+3)(x-2)} \, dx$$
+
+\noin We look for scalars $a, b$, and $c$ such that
+$$\frac{7x^2+7}{(x^2+3)(x-2)}  = \frac{ax+b}{x^2+3}+\frac{c}{x-2}$$
+
+\noin After some algebra, we find that $a=2$, $b=4$, and $c=5$, and therefore,
+$$\frac{7x^2+7}{(x^2+3)(x-2)}  = \frac{2x+4}{x^2+3}+\frac{5}{x-2}$$
+
+\noin Then, 
+\begin{align*}
+\int \frac{7x^2+7}{(x^2+3)(x-2)} \, dx &= \int \frac{2x+4}{x^2+3}\, dx + \int \frac{5}{x-2}\, dx \\
+&=\ln (x^2+3)+\frac{4}{\sqrt 3} \arctan \left (  \frac{x}{\sqrt 3}\right ) +5\ln(x-2) +C
+\end{align*}
+
+\noin where $C$ is a constant.
+
+\vspace{20pt}
+
+\noin In Question 1, we will use the theory of basis and dimension in linear algebra to explain why the partial fractions decomposition 
+$$\frac{7x^2+7}{(x^2+3)(x-2)}  = \frac{ax+b}{x^2+3}+\frac{c}{x-2}$$
+
+\noin exists, thereby allowing us to solve the integral.
+
+
+\vspace{90pt}
+
+\noin{\bf 1.}  Let $$V = \left \{ \frac{dx^2+ex+f}{(x^2+3)(x-2)} \mid d, e, f\in \mathbb R\right \}$$  
+
+\noin We define vector addition and scalar multiplication in $V$ by the usual function addition and scalar multiplication.  Then $V$ is vector space.
+
+\vspace{20pt}
+
+\noin{(a)}  Prove that $\dim\, V =3$.  Then, explain why a partial fractions decomposition of the form
+$$\frac{dx^2+ex+f}{(x^2+3)(x-2)}  = \frac{ax+b}{x^2+3}+\frac{c}{x-2}$$
+is consistent with the dimension of $V$. \\
+
+\begin{center}
+{\bf Use the page 3 to answer this question}.
+\end{center}
+
+
+
+
+\pagebreak
+
+\noin{1(a)}
+
+%Question 1(a)
+
+{
+	\vspace*{-10pt}
+	%%% Do not change the height of this box. Your work must fit inside it.
+	
+	\makenonemptybox{550pt}{
+
+	%%% Your work goes here!
+	By definition of dimension ($dim V = 3$), there are three vectors in any of V's bases. To prove this
+	we will show there exists three linearly independent vectors that span V.
+
+	Assume these three vectors are $\bf{v_1}, \bf{v_2}, \bf{v_3} \in V$:
+	\begin{flalign*}
+		{\bf{v_1}} = \frac{x^2}{(x^2 + 3)(x-2)},
+		{\bf{v_2}} = \frac{x}{(x^2 + 3)(x-2)},
+		{\bf{v_3}} = \frac{1}{(x^2 + 3)(x-2)},
+	\end{flalign*}
+	i. To show linear independence we will use its definition:
+	\begin{flalign*}
+		&\lambda_1\bf{v_1} + \lambda_2\bf{v_2} + \lambda_3\bf{v_3} = \bf{0} \\
+		&\lambda_1\frac{x^2}{(x^2 + 3)(x-2)} + \lambda_2\frac{x}{(x^2 + 3)(x-2)} + \lambda_3\frac{1}{(x^2 + 3)(x-2)} = \bf{0} \\
+	\end{flalign*}
+	Multiplying both sides by the denominator:
+	\begin{flalign*}
+		\lambda_1x^2 + \lambda_2x + \lambda_3 = \bf{0} \\
+	\end{flalign*}
+	???The only value satisfying this equation is $\lambda_1 = \lambda_2 = \lambda_3 = 0$
+	Therefore, $\bf{v_1}, {v_2}, {v_3}$ are linearly independent.
+
+	ii. Proving span
+	\begin{flalign*}
+		span\{{\bf v_1, v_2, v_3}\} &= \{{\bf v} | {\bf v} = \sum_{i=1}^{n} \lambda_iv_i, \lambda_i \in \mathbb R\} \\
+		&\lambda_1{\bf v_1} + \lambda_2{\bf v_2} + \lambda_3{\bf v_3} = \bf 0 \\
+		&=\lambda_1\frac{x^2}{(x^2 + 3)(x-2)} + \lambda_2\frac{x}{(x^2 + 3)(x-2)} + \lambda_3\frac{1}{(x^2 + 3)(x-2)} = \bf{0} \\
+		&=\frac{\lambda_1x^2+\lambda_2x+\lambda_3}{(x^2+3)(x-2)}
+	\end{flalign*}
+	By choosing $\lambda_1 = d, \lambda_2=e, \lambda_3=f$, we see any vector $\frac{dx^2+ex+f}{(x^2+3)(x-2)}$ can be formed. Therefore $\{{\bf v_1, v_2, v_3}\}$ spans V.
+
+	iii. Since $\{{\bf v_1, v_2, v_3}\}$ span $V$ and are linearly independent, no vectors need to be removed or added to the set. By Proof of Construction,
+	a basis has been formed by $\{{\bf v_1, v_2, v_3}\}$ where $dim\{{\bf v_1, v_2, v_3}\} = 3$ since there are three linearly independent vectors.
+
+	Showing $\frac{ax+b}{x^2+3}+\frac{c}{x-2} | a, b, c \in \mathbb R$ also has dimension of 3:
+	\begin{flalign*}
+		\frac{ax+b}{x^2+3}+\frac{c}{x-2} &= \frac{(ax+b)(x-2)}{(x^2 + 3)(x-2)} + \frac{c(x^2 + 3)}{(x^2+3)(x-2)} \\
+		% &=\frac{(ax^2 -2ax + bx -2b)}{(x^2 + 3)(x-2)} + \frac{cx^2 + 3c}{(x^2+3)(x-2)} \\
+		% &=\frac{(ax^2 -2ax + bx -2b + cx^2 + 3c)}{(x^2 + 3)(x-2)} \\
+		&=\frac{(c + a)x^2}{(x^2 + 3)(x-2)} + \frac{(b-2a)x}{(x^2 + 3)(x-2)} + \frac{(3c-2b)}{(x^2 + 3)(x-2)}
+	\end{flalign*}
+	This is the form of a linear combination of three vectors. Where $c+a = d$, $b-2a = e$, $3c-2b = f$, the linear combination spans $V$. To show linear independece, 
+	we can multiply by the common denominator and represent the coeffecient equations as a matrix. 
+	\begin{align*}
+		\bf Ax = b \\
+		\begin{bmatrix}
+			1 & 0 & 1 \\
+			-2 & 1 & 0 \\
+			0 & -2 & 3 \\
+		\end{bmatrix}
+		\begin{bmatrix}
+			a \\ b \\ c
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			d \\ e \\ f
+		\end{bmatrix}
+	\end{align*}
+	Matrix $\bf A$ has 3 linearly independent columns, and therefore a dimension of 3. As a result, the partial fraction decomposition forms three linearly independet vectors, which agree with the $dim V = 3$.  
+
+
+	}
+}
+
+
+\pagebreak
+
+
+\noin{\bf 1.}  Let $$V = \left \{ \frac{dx^2+ex+f}{(x^2+3)(x-2)} \mid d, e, f\in \mathbb R\right \}$$  
+
+\noin We define vector addition and scalar multiplication in $V$ by the usual function addition and scalar multiplication.  Then $V$ is vector space.
+
+\vspace{20pt}
+
+\noin{(b)}   Using that $\dim\, V=3$ from part (a), explain why we do not expect a partial fractions decomposition of the form
+$$\frac{dx^2+ex+f}{(x^2+3)(x-2)}  = \frac{a}{x^2+3}+\frac{b}{x-2}$$
+to exist.
+
+%Question 1(b)
+{
+	\vspace*{-10pt}
+	%%% Do not change the height of this box. Your work must fit inside it.
+	
+	\makenonemptybox{550pt}{
+
+	%%% Your work goes here! 
+	By proving $dim \frac{a}{x^2+3}+\frac{b}{x-2} < 3$, we know a solution of this form can not span $V$ since it can not have a smaller dimension than the basis.
+
+	\begin{align*}
+		\frac{a}{x^2+3}+\frac{b}{x-2} &= \frac{a(x-2)}{(x^2+3)(x-2)}+\frac{b(x^2+3)}{(x-2)(x^2 + 3)} \\
+		&=\frac{ax-2a}{(x^2+3)(x-2)}+\frac{bx^2+3b}{(x-2)(x^2 + 3)} \\
+		&=\frac{ax-2a + bx^2+3b}{(x^2+3)(x-2)} \\
+		&=\frac{bx^2}{(x^2+3)(x-2)} + \frac{ax}{(x^2+3)(x-2)} + \frac{-2a + 3b}{(x^2+3)(x-2)} \\
+	\end{align*}
+	Comparing to the form of $V$ and multiplying out the denominator:
+	\begin{align*}
+		\frac{dx^2}{(x^2+3)(x-2)} + \frac{ex}{(x^2+3)(x-2)} + \frac{f}{(x^2+3)(x-2)} &=\frac{bx^2}{(x^2+3)(x-2)} + \frac{ax}{(x^2+3)(x-2)} + \frac{-2a + 3b}{(x^2+3)(x-2)} \\
+		dx^2 + ex + f &= bx^2 + ax + (-2a + 3b)
+	\end{align*}
+	To span $V$, we must show $b = d$, $a = e$, $-2a + 3b = f$. Representing these equations in Matrix form:
+	\begin{align*}
+		\bf Ax = b \\
+		\begin{bmatrix}
+			0 & 1 & 0 \\
+			1 & 0 & 0 \\
+			-2 & 3 & 0 \\
+		\end{bmatrix}
+		\begin{bmatrix}
+			a \\ b \\ c
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			d \\ e \\ f
+		\end{bmatrix}
+	\end{align*}
+	Matrix $\bf A$ has a linearly dependent column of 0s, and therefore $dim A < 3$. This means the linear combination of the partial fraction decomposition also has a dimension less than 3.
+	\begin{align*}
+		dim (\{\frac{a}{x^2+3}, \frac{b}{x-2}\}) < 3
+	\end{align*}
+	Therefore the partial fraction decomposition can not span $V$ and the equality does not hold. This is numerical seen as any case where $f \neq 3b - 2a$, and there will be no solution to the $\bf Ax = b$ system.
+	}
+}
+
+
+\pagebreak
+
+\noin{\bf 2.}  Suppose that $W_1$ and $W_2$ are both three dimensional subspaces of $\mathbb R^4$.  In this question, we will show that $W_1 \cap W_2$ contains a plane. \\
+
+\noin Let ${\bf w}_1, {\bf w}_2, {\bf w}_3$ be a basis for $W_1$, and let ${\bf u_1}, {\bf u}_2, {\bf u}_3$ be a basis for $W_2$.
+
+\vspace{20pt}
+
+\noin{(a)}  If  ${\bf u_1}, {\bf u}_2, {\bf u}_3$ all belong to $W_1$ explain why $W_1 \cap W_2$ contains a plane.
+
+
+%Question 2(a)
+    
+    {
+	\vspace*{-10pt}
+	%%% Do not change the height of this box. Your work must fit inside it.
+	
+	\makenonemptybox{200pt}{
+	\vspace*{10pt}
+	
+	%%% Your work goes here! 
+	\par Given $u_1, u_2, u_3$ form a basis for $W_1$, the must be linearly independent and span $W_2$ by definition.
+	Given $u_1, u_2, u_3 \in W_1$, $W_2 \in W_1$ since any vector ${\bf x} \in W_2$ and ${\bf x} \in span\{u_1, u_2, u_3\} \forall {\bf x}$ by closure under vector addition and scalar multiplication. 
+	If $W_2 \in W_1$, it follows $W_1 \cap W_2 = W_2$ and therefore $u_1, u_2, u_3 \in W_1 \cap W_2$.
+
+	\vspace*{10pt}
+
+	\par The dimension of plane is 2, as it is a surface spanned by two linearly independent vectors. On other words, a plane's bases are formed by two linearly independent vectors.
+
+	\vspace*{10pt}
+
+	\par Take two linearly independent vectors $u_1, u_2 \in W_1 \cup W_2$, which are also linearly independent being a basis for $W_2$. 
+	$span\{u_1, u_2\}$ forms a plane it is all linear combinations of two linearly independent vectors and $span\{u_1, u_2\} \in W_1 \cup W_2$ as previously stated. 
+
+	}
+}
+
+\vspace{20pt}
+
+\noin{(b)}  Now suppose that not all of ${\bf u_1}, {\bf u}_2, {\bf u}_3$ belong to $W_1$.  Say ${\bf u}_1\notin W_1$.  Prove that ${\bf w}_1, {\bf w}_2, {\bf w}_3, {\bf u}_1$ is a basis for $\mathbb R^4$.
+
+
+%Question 2(b)
+    
+    {
+	\vspace*{-10pt}
+	%%% Do not change the height of this box. Your work must fit inside it.
+	
+	\makenonemptybox{350pt}{
+	
+	%%% Your work goes here! 
+
+	}
+}
+
+\pagebreak
+
+
+\noin{\bf 2.}  Suppose that $W_1$ and $W_2$ are both three dimensional subspaces of $\mathbb R^4$.  In this question, you will show that $W_1 \cap W_2$ contains a plane. \\
+
+\noin Let ${\bf w}_1, {\bf w}_2, {\bf w}_3$ be a basis for $W_1$, and let ${\bf u_1}, {\bf u}_2, {\bf u}_3$ be a basis for $W_2$.
+
+\vspace{20pt}
+
+\noin{(c)}  Using the assumption and conclusion from part (b),  find two vectors in $W_1\cap W_2$ and then prove that these two vectors span a plane.
+
+
+%Question 2(c)
+    
+    {
+	\vspace*{-10pt}
+	%%% Do not change the height of this box. Your work must fit inside it.
+	
+	\makenonemptybox{550pt}{
+	
+	%%% Your work goes here! 
+
+	}
+}
+
+
+
+\end{document}
