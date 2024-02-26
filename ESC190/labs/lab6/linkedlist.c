@@ -52,7 +52,7 @@ void delete_elem(LL *my_list, int idx){
     }
 
     node *elem_to_delete;
-    //edge case
+    //edge case -> better to check this first
     if (idx == 0){
         elem_to_delete = elem;
         my_list->head = elem_to_delete->next;
