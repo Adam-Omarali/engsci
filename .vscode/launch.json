@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/adamomarali/Docs/ENGSCI/ESC190",
-      "program": "/Users/adamomarali/Docs/ENGSCI/ESC190/build"
+      "cwd": "/Users/adamomarali/Docs/ENGSCI/ESC190/autocomplete",
+      "program": "/Users/adamomarali/Docs/ENGSCI/ESC190/autocomplete/build/Debug/outDebug"
     }
   ]
 }
