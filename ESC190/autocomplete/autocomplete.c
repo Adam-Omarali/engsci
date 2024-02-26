@@ -11,6 +11,7 @@ int get_str_by_delimeter(char *str, char *stream, char delimeter, int start){
         start++;
         i++;
     }
+    str[i] = '\0';
     return i;
 }
 
@@ -124,7 +125,7 @@ int highest_match(struct term *terms, int nterms, char *substr){
 int compare(const void *a, const void *b){
     const term *t1 = a;
     const term *t2 = b;
-    return t1->weight - t2->weight;  
+    return (int)(t2->weight - t1->weight);  
 }
 
 
@@ -132,13 +133,13 @@ void autocomplete(struct term **answer, int *n_answer, struct term *terms, int n
     int start_ans = lowest_match(terms, nterms, substr);
     int end_ans = highest_match(terms, nterms, substr);
     *n_answer = end_ans - start_ans + 1;
-    *answer = (term *)malloc(sizeof(term) * (*n_answer + 1));
+    *answer = (term *)malloc(sizeof(term) * (*n_answer));
     for(int i = 0; i < *n_answer; i++){
         strcpy((*answer)[i].term, terms[start_ans + i].term);
         (*answer)[i].weight = terms[start_ans + i].weight;
     } 
-    qsort(*answer, *n_answer, sizeof(term), compare);
     // for(int i = 0; i <= (*n_answer); i++){
     //     printf("%s, %f\n", (*answer)[i].term, (*answer)[i].weight);
-    // }  
+    // }
+    qsort(*answer, *n_answer, sizeof(term), compare);
 }

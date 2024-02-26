@@ -369,7 +369,7 @@ to exist.
 	\vspace*{10pt}
 
 	\par Take two linearly independent vectors $u_1, u_2 \in W_1 \cup W_2$, which are also linearly independent being a basis for $W_2$. 
-	$span\{u_1, u_2\}$ forms a plane it is all linear combinations of two linearly independent vectors and $span\{u_1, u_2\} \in W_1 \cup W_2$ as previously stated. 
+	$span\{u_1, u_2\}$ forms a plane because it is all linear combinations of two linearly independent vectors and $span\{u_1, u_2\} \in W_1 \cup W_2$ as previously stated. 
 
 	}
 }
@@ -388,6 +388,30 @@ to exist.
 	\makenonemptybox{350pt}{
 	
 	%%% Your work goes here! 
+	Since $w_1, w_2, w_3$ form a basis for $W_1$, every vector $w \in W$ can be expressed by a linear combination:
+	\begin{align*}
+		w = \lambda_1w1+\lambda_2w_2+\lambda_3w3, \lambda_1, \lambda_2, \lambda_3 \in \mathbb{R}
+	\end{align*}
+	Assume $u_1$ can be formed by a linear combination of $w_1, w_2, w_3$.
+	\begin{align*}
+		u = \lambda_1w1+\lambda_2w_2+\lambda_3w3
+	\end{align*}
+	Then, $u_1 \in W_1$ since all linear combinations of the basis vectors must be in $W$.
+	% Given $u_1 \notin W_1$, by contradiction, $u_1 \notin span\{w_1, w_2, w_3\}$.
+	Given $u_1 \notin W_1$, by contradiction, $u_1$ can not be formed by a linear combination of $w_1, w_2, w_3$ or $u_1 \notin span\{w_1, w_2, w_3\}$.
+	\\
+	Consider the following linear combination where $\alpha_1, \lambda_1, \lambda_2, \lambda_3 \in \mathbb{R}$ and we assume $\alpha \neq 0$:
+	\begin{align*}
+		\alpha_1u_1 + \lambda_1w_1 + \lambda_2w_2 + \lambda_3w_3 &= 0\\
+		\lambda_1w_1 + \lambda_2w_2 + \lambda_3w_3 &= -\alpha_1u_1 \\
+		-\frac{\lambda_1}{\alpha_1}w_1 - \frac{\lambda_2}{\alpha_1}w_2 - \frac{\lambda_3}{\alpha_1}w_3 &= u_1 \\
+	\end{align*}
+	Since $-\frac{\lambda_x}{\alpha_1} \in \mathbb{R}$, this is equation is a linear combination of $w_1, w_2, w_3$ that forms $u_1$.
+	By the previous contradiction, this is not possible, and therefore, $\alpha = 0$. Additionaly, $\lambda_1 = \lambda_2 = \lambda_3 = 0$
+	since they are linearly independent by the definition of a basis.
+
+	Therefore, $u_1, w_1, w_2, w_3$ are four linearly independent vectors. Since $dim \mathbb{R}^4 = 4$, there are four linearly independent vectors in the basis of $\mathbb{R}^4$.
+	By the Algebra Triangle Theorm, the set $\{u_1, w_1, w_2, w_3\}$ must be a basis for $W_1$ since the four vectors are linearly independent.
 
 	}
 }
@@ -411,9 +435,30 @@ to exist.
 	%%% Do not change the height of this box. Your work must fit inside it.
 	
 	\makenonemptybox{550pt}{
-	
 	%%% Your work goes here! 
+	\vspace*{10pt}
+	From (b), there can only be 4 linearly independent vectors in $\mathbb{R}^4$. Since $W_1 \sqsubset \mathbb{R}^4$ and $W_2 \sqsubset \mathbb{R}^4$, 
+	only 4 vectors of $w_1, w_2, w_3, u_1, u_2, u_3$ can be linearly independent.
+	\\\\
+	We know $w_1, w_2, w_3, u_1$ are linearly independent from (b). Therefore, $u_2$ and $u_3$ must be linearly dependent to
+	two different vectors from $w_1, w_2, w_3, u_1$ since $u_2$ and $u_3$ are linearly independent themselves. 
+	We also know $u_2$ and $u_3$ can not be dependent to $u_1$ since by the definition of a basis, $u_1, u_2, u_3$ are linearly independent.
+	Futhermore, $u_1 \notin W_1 \cap W_2$ given $u_1 \notin W_1$.
+	\\\\
+	Let's pick $w_2$ to be linearly dependent to $u_2$ and $w_3$ to be linearly dependent to $u_3$. 
+	Since $W_1, W_2$ is closed under scalar multiplication, where $\alpha \in \mathbb{R}^4$, $\alpha w_2 \in W_1$ and $u_2 \in W_2$.
+	As $w_2$ and $u_2$ are linearly dependent, $u_2$ can be expressed as $u_2 = \alpha w_2$.  Therefore $u_2 \in W_1$. 
+	By the same arguement with $u_3$ and $w_3$, $u_3 \in W_1$. 
 
+	By the reverse, $w_2 = \frac{1}{\alpha} u_2 \in W_1$. Therefore, $w_2 \in W_1$ and $w_3 \in W_2$. 
+	\\\\
+	Since $w_2, w_3, u_2, u_3 \in W_1$ and $w_2, w_3, u_2, u_3 \in W_2$, $w_2, w_3, u_2, u_3 \in W_1 \cup W_2$.
+	\\\\
+	A $\mathbb{R}^4$ plane through the origin is formed from two linearly independent vectors $\in \mathbb{R}^4$ as $dim \text{plane} = 2$. 
+	To satisfy the condition these two vectors must be $\in W_1 \cap W_2$, either $\{w_2, w_3\}$ or $\{u_2, u_3\}$ can be picked.
+	\\\\
+	Finally $span\{w_2, w_3\} \in W_1 \cap W_2$, and being two linearly independent vectors, must be a basis for a plane by the Algebra Triangle Theorm. 
+	Therefore, they must also span a plane by the definition of basis.
 	}
 }
 
