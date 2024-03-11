@@ -145,3 +145,17 @@ student *students_block = (student *)malloc(sizeof(student) * 500);
 
 ### Storing Structs in Memory
 ![](IMG_0218.jpg)
+
+
+## Python Classes
+Class instances can only be decleared and initialized at the same time in python. This is since variable types are not explicitly defined
+```python
+class AcornStudent(inherit): #where inherit is an class AcornStudent should inherit from
+
+    def __init__(self, initialize_value1, ...): #the constructor called when the object is initialized -> 
+
+    def __repr__(self) #define a string representation that overloard the default object output when print is called
+
+    def __lt__(self, other): #define how to compare two objects when ('obj1 < obj2' is called)
+        return self.mark < other.mark
+```
