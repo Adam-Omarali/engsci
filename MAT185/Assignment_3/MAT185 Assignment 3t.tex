@@ -1,0 +1,368 @@
+\documentclass[10pt]{article}
+
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{fullwidth}
+\usepackage{graphicx}
+\usepackage[margin=0.6in]{geometry}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage[hidelinks, urlcolor=blue, linkcolor=blue, colorlinks=true]{hyperref} 
+
+\DeclarePairedDelimiterX\set[1]\lbrace\rbrace{\def\given{\;\delimsize\vert\;}#1}
+
+\newcommand{\bcent}{\begin{center}}
+\newcommand{\ecent}{\end{center}}
+\newcommand{\tb}{\textbf}
+\newcommand{\noin}{\noindent}
+\newcommand{\benum}{\begin{enumerate}}
+\newcommand{\eenum}{\end{enumerate}}
+\newcommand{\bitem}{\begin{itemize}}
+\newcommand{\eitem}{\end{itemize}}
+\def\boxx#1{
+    \framebox{
+    \begin{tabular}{c}
+    \\[-1pt]
+    #1 \\
+    \\[-1pt]
+    \end{tabular}
+    }
+}
+
+%%% This command makes a framed box of a chosen height.
+\newcommand{\makenonemptybox}[2]{%
+\par\nobreak\vspace{\ht\strutbox}\noindent
+\setlength{\fboxrule}{0pt} % set this to 0pt to make invisible
+\fbox{%
+\parbox[c][#1][t]{\dimexpr\linewidth-2\fboxsep}{
+  \hrule width \hsize height 0pt
+  #2
+ }%
+}%
+}
+\makeatother    
+
+
+\begin{document}
+
+{\bcent\fontfamily{cmss}\selectfont
+\begin{tabular}{c}
+\textbf{}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\textbf{{\color{red} Due}: 11:59pm Sunday March 3, 2024}\\\hline
+\end{tabular}\ecent
+}
+
+{\fontfamily{cmss}\selectfont
+\large\bcent\tb{}\\
+\tb{}\\
+\vspace{0pt}
+%\tb{Term Test 1}\\
+
+\tb{\Large MAT185 Linear Algebra}\\
+
+\tb{Assignment 3}
+\ecent}
+
+
+
+\noin{\fontfamily{cmss}\selectfont\tb{\large Instructions:}} \\ %% Fairly standard and designed to save time; however, tweak as necessary.
+
+\noindent Please read the {\bf MAT185 Assignment Policies \& FAQ} document for details on submission policies, collaboration rules and academic integrity, and general instructions. 
+
+\benum
+
+
+\item {\bf Submissions are only accepted by} \href{https://www.gradescope.ca}{Gradescope}. Do not send anything by email.  Late submissions are not accepted under any circumstance. Remember you can resubmit anytime before the deadline. 
+
+\item  {\bf Submit solutions using only this template pdf}.  Your submission should be a single pdf with your full written solutions for each question. If your solution is not written using this template pdf (scanned print or digital) then your submission will not be assessed. Organize your work neatly in the space provided.  Do not submit rough work. 
+
+\item  {\bf Show your work and justify your steps} on every question but do not include extraneous information.  Put your final answer in the box provided, if necessary.  We recommend you write draft solutions on separate pages and afterwards write your polished solutions here on this template.
+
+\item  {\bf You must fill out and sign the academic integrity statement below}; otherwise, you will receive zero for this assignment. 
+
+
+\eenum
+
+\vspace{30pt}
+
+
+\noin{\fontfamily{cmss}\selectfont\tb{\large Academic Integrity Statement:}} \\
+
+%%% Student information
+
+% Student 1
+\fbox{
+\begin{minipage}{\textwidth}
+{
+\vspace{0.2in}
+
+\makebox[\textwidth]{\sffamily Full Name:\enspace\hrulefill}
+
+\vspace{0.2in}
+
+\makebox[\textwidth]{\sffamily Student number:\enspace\hrulefill}
+
+\vspace{0.1in}
+}
+\end{minipage}
+}
+
+\vspace*{0.1in}
+
+% Student 2
+\fbox{
+\begin{minipage}{\textwidth}
+{
+\vspace{0.2in}
+
+\makebox[\textwidth]{\sffamily Full Name:\enspace\hrulefill}
+
+\vspace{0.2in}
+
+\makebox[\textwidth]{\sffamily Student number:\enspace\hrulefill}
+
+\vspace{0.1in}
+}
+\end{minipage}
+}
+~
+
+I confirm that:
+
+\begin{itemize} 
+	\item I have read and followed the policies described in the document {\bf MAT185 Assignment Policies \& FAQ}.
+	\item In particular, I have read and understand the rules for collaboration, and permitted resources on assignments as described in subsection II of the the aforementioned document. I have not violated these rules while completing and writing this assignment. 
+	\item I understand the consequences of violating the University's academic integrity policies as outlined in the \href{http://www.governingcouncil.utoronto.ca/policies/behaveac.htm}{Code of Behaviour on Academic Matters}. I have not violated them while completing and writing this assignment.
+\end{itemize}
+By signing this document, I agree that the statements above are true. 
+
+% You should sign this PDF after compiling. Do not write your signature using LaTeX.
+\vspace{0.2in}
+{\large 
+\makebox[\textwidth]{\sffamily Signatures: 1)\enspace\hrulefill} 
+
+\vspace{0.2in}
+
+\makebox[\textwidth]{\sffamily \hspace*{20mm} 2)\enspace\hrulefill} 
+
+}
+
+\vfill
+
+
+\pagebreak
+
+
+\noin {\bf Preamble}: Rank factorization. \\
+
+\noin Suppose that $A\in {^m}\mathbb R^k$ has rank $r\ge 1$.  Then $A$ has $r$ linearly independent columns that form a basis for $\mathrm{col}\, A$.  Let ${\bf b}_1, {\bf b}_2, \dots, {\bf b}_r$ be any basis for $\mathrm{col}\, A$, and let $B\in {^m}\mathbb R^r$ be the matrix whose columns are ${\bf b}_1, {\bf b}_2, \dots, {\bf b}_r$.  That is,
+
+$$B=\begin{bmatrix} {\bf b}_1 & {\bf b_2} &\cdots& {\bf b}_r \end{bmatrix}.$$\\
+
+\noin Then, every column of $A$ can be written as a linear combination of ${\bf b}_1, {\bf b}_2, \dots, {\bf b}_r$.  In other words, if ${\bf a}_1, {\bf a}_2, \dots, {\bf a}_k$ are the columns of $A$, then, for every $j=1, 2, \dots k$,
+
+$${\bf a}_j = c_{1j}{\bf b}_1+c_{2j}{\bf b}_2+\cdots+c_{rj}{\bf b}_r$$
+
+\noin for some scalars $c_{1j}, c_{2j}, \dots, c_{rj}\in \mathbb R$.\\
+
+\noin Then,
+
+\begin{align*}
+A &= \begin{bmatrix} {\bf a}_1 & {\bf a}_2 & \dots& {\bf a}_k \end{bmatrix} \\
+&=\begin{bmatrix} {\bf b}_1 & {\bf b_2} &\cdots& {\bf b}_r \end{bmatrix} \begin{bmatrix} c_{11} & c_{12} & \cdots &c_{1r} \\ c_{21} & c_{22} & \cdots &c_{2r} \\ \vdots & \vdots & \ddots & \vdots \\ c_{r1} & c_{r2} & \cdots &c_{rk}\end{bmatrix} \\
+&=BC
+\end{align*}
+
+
+
+\noin where $B \in {^m}\mathbb R^r$, $C\in {^r}\mathbb R^k$, and $r=\mathrm{rank}\, A$.  This is called a {\it \color{blue} rank factorization} of $A$.
+
+\vspace{20pt}
+
+\noin In this assignment, we will see how such a rank factorization can help us investigate the rank of a sum of matrices.
+
+
+
+
+
+\pagebreak
+
+%%% Questions
+
+
+\noin{1.} Let $A\in {^m}\mathbb R^k$,  and $B\in {^k}\mathbb R^n$.
+\vspace{20pt}
+
+\noin{(a)} Suppose that $AB=0$.  Prove that 
+$$\mathrm{rank}\, A + \mathrm{rank}\, B - k \leq \mathrm{rank}\, AB.$$ \\
+
+\noin{\it Hint}: Consider the cases where $A=0$ and $A\neq 0$.
+
+%Question 1(a)
+
+{
+	\vspace*{-10pt}
+	%%% Do not change the height of this box. Your work must fit inside it.
+	
+	\makenonemptybox{550pt}{
+	\vspace*{10pt}
+	Start by considering the case ${A} = \bf{0}$. Since ${A}$ is a matrix with only zero columns, all columns are linearly dependent. 
+	By definition, $dim\{\bf{0}\} = 0$. The rank of $B$ is confined by the following inequality: $0\leq \mathrm{rank}\ B \leq min\{k, n\}$ since 
+	the rank of a matrix can be at the most the mininumum of the number of rows and columns as $dim\ col\ B = dim\ row\ B = dim\ \mathrm{rank}\ B$.
+	We also know $\mathrm{rank}\ AB = \mathrm{rank}\ {\bf{0}} = dim\{\bf{0}\} = 0$. Subbing these values into the inequality we are given:
+	\begin{align*}
+		\mathrm{rank}\ {A} + \mathrm{rank}\ B - k &\leq \mathrm{rank} AB \\
+		0 + \mathrm{rank}\ B - k &\leq 0 \\
+		min\{m , k\}  - k &\leq 0 \\
+		min\{m , k\} &\leq k \\
+	\end{align*} 
+	% Consider the case $n > k$, where the number of columns is greater than the number of rows in $\bfB$. Then $\mathrm{rank}\bfB$ can be atmost $k$.
+	% \begin{align*}
+	% 	0 + k - k &\leq 0 \\
+	% 	0 &\leq 0
+	% \end{align*} 
+	% The other case is when $n \geq k$, where the number of columns is less than the number of rows in $\bfB$. Then $\mathrm{rank}\bfB$ can be atmost $n$.
+	% \begin{align*}
+	% 	0 + n - k &\leq 0 \\
+	% 	n - k &\leq 0 \\
+	% \end{align*}
+	% Since $n \geq k$, $n - k \leq 0$. Therefore, the inequality holds true for both cases.
+	\\
+	Now we consider the case where ${A} \neq {0}$. Since ${A} \neq \bf{0}$, $1 \leq \mathrm{rank}\ {A} \leq min\{m, k\}$.
+	If $B = 0$, a similar argument stands for ${A} = 0$.
+	\begin{align*}
+		\mathrm{rank}\ {A} + \mathrm{rank}\ B - k &\leq \mathrm{rank} AB \\
+		\mathrm{rank}\ {A} + 0 - k &\leq 0 \\
+		min\{m , k\} &\leq k \\
+	\end{align*}
+	For the case where $B \neq \bf{0}$:
+	\begin{align*}
+		AB = 0 \\
+		\bf[A_1, A_2 \dots A_k][B_1, B_2 \dots B_n] = {\bf0}\ |  {A_1, \dots A_k} \in {^m}\mathbb R, {B_1, \dots B_k} \in {^k}\mathbb R\\
+	\end{align*}
+	For the product ${AB}$ to be zero consider the first entry in the resulting matrix.
+	\begin{align*}
+		AB = \bf{0} \\
+		{\bf{[A_1, A_2 \dots A_k][B_1]}} = 0 \\
+		{A} {\bf \begin{bmatrix}
+			b_{11} \\
+			\dots \\
+			b_{k1}
+		\end{bmatrix}} = 0 \\
+	\end{align*}
+	Therefore, $B_1 \in \mathrm{null}\ A$. To produce the zero matrix, this must be true for all $B_i$. Therefore, $col\ B \sqsubset null \ A$ and by Theorm 11.6, $dim\ col\ B = rank\ B \leq dim \ null \ A$. 
+	From the rank nullity theorm (1): $dim\ null\ A = k - rank\ A \geq rank\ B$. Therefore:
+	\begin{align*}
+		\mathrm{rank}\ {A} + \mathrm{rank}\ B - k &\leq \mathrm{rank}\ AB \\
+		\mathrm{rank}\ {A} + \mathrm{rank}\ B - k &\leq 0 \\
+		\mathrm{rank}\ B &\leq k - \mathrm{rank}\ {{A}}\\
+	\end{align*}
+	This inequality satisfies the rank nullity inequality (1).
+	}
+}
+
+\pagebreak
+
+
+\noin{1.} Let $A\in {^m}\mathbb R^k$,  and $B\in {^k}\mathbb R^n$.
+\vspace{20pt}
+
+
+\noin{(b)} Suppose that $AB\neq0$.  Prove that 
+$$\mathrm{rank}\, A + \mathrm{rank}\, B - k \leq \mathrm{rank}\, AB.$$\\
+
+\noin{\it Hint}:  Suppose that $\mathrm{rank}\, AB=r\ge 1$ and use a rank factorization $AB=CD$.  Let $X$ and $Y$ be the augmented matrices 
+$$X=\begin{bmatrix} A & C \end{bmatrix} \,\,\, \mbox{ and } \,\,\, Y=\begin{bmatrix} B\\ -D \end{bmatrix}$$
+(be sure to note the sizes of $C, D,  X, Y$) then compute $XY$ and use part (a).
+
+
+
+%Question 1(b)
+
+{
+	\vspace*{-10pt}
+	%%% Do not change the height of this box. Your work must fit inside it.
+	
+	\makenonemptybox{550pt}{
+
+	We know $AB \in {^m}\mathbb R^n$. Using the rank factorization $AB = CD$, $CD$ must also be in ${^m}\mathbb R^n$. 
+	Since $C$ forms a basis for $AB$, it must have $rank AB = r$ independent columns. To perform matrix multiplication, $D$ must have $r$ rows. 
+	Therefore, $C \in {^m}\mathbb R^r$ and $D \in {^r}\mathbb R^n$.
+	The size of $X = \begin{bmatrix} A & C \end{bmatrix}$ is ${^{2m}}\mathbb R^{r+k}$. The size of $Y = \begin{bmatrix} B & -D \end{bmatrix}$ is ${^{r+k}}\mathbb R^{2n}$.
+	Since the inner dimensions of these augmented matrices match, we can perform matrix multiplication.
+
+	\begin{align*}
+		\begin{bmatrix}
+			A &
+			C
+		\end{bmatrix}
+		\begin{bmatrix}
+			B &
+			-D
+		\end{bmatrix} = \begin{bmatrix}
+			AB
+			-CD \\
+		\end{bmatrix} \\
+		= \begin{bmatrix}
+			0
+		\end{bmatrix}
+	\end{align*}
+
+	
+	}
+}
+
+
+\pagebreak
+
+\noin{\bf 2.} Let $A\in {^m}\mathbb R^k$,  $B\in {^k}\mathbb R^n$.  Prove that the rank inequality $\mathrm{rank}\, A + \mathrm{rank}\, B - k \leq \mathrm{rank}\, AB.$ from Question 1. is equivalent to the inequality
+$$\mathrm{nullity}\, AB \leq \mathrm{nullity}\, A +\mathrm{nullity}\, B$$
+
+
+%Question 2
+    
+    {
+	\vspace*{-10pt}
+	%%% Do not change the height of this box. Your work must fit inside it.
+	
+	\makenonemptybox{550pt}{
+	
+	%%% Your work goes here! 
+	
+	
+	}
+}
+
+
+\pagebreak
+
+
+\noin{\bf 3.}   Let $A, B\in {^m}\mathbb R^n$. Prove that
+$$|\, \mathrm{rank}\, A -\mathrm{rank}\, B\,| \leq \mathrm{rank}(A+B) \leq \mathrm{rank}\, A +\mathrm{rank}\, B$$\\
+
+\noin{\it Hint}:  Prove each inequality separately.  Assume that $\mathrm{rank}\, A=r\ge 1$, and $\mathrm{rank}\, B=s\ge 1$, and use a rank factorization $A=CD$, and $B=EF$.  Let $X$ and $Y$ be the augmented matrices 
+$$X=\begin{bmatrix} C & E \end{bmatrix} \,\,\, \mbox{ and } \,\,\, Y=\begin{bmatrix} D\\ F\end{bmatrix}$$
+(be sure to note the sizes of $C, D, E, F, X, Y$) then compute $XY$ and use previous results.
+
+%Question 3
+{
+	\vspace*{-10pt}
+	%%% Do not change the height of this box. Your work must fit inside it.
+	
+	\makenonemptybox{550pt}{
+
+	%%% Your work goes here! 
+
+
+	}
+}
+
+
+
+
+
+
+
+
+\end{document}
