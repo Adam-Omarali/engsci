@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/adamomarali/Docs/SCHOOL/UNI/ENGSCI/ESC190/labs/lab10",
-      "program": "/Users/adamomarali/Docs/SCHOOL/UNI/ENGSCI/ESC190/labs/lab10/build/Debug/outDebug"
+      "cwd": "/Users/adamomarali/Docs/SCHOOL/UNI/ENGSCI/ESC190/labs/lab11",
+      "program": "/Users/adamomarali/Docs/SCHOOL/UNI/ENGSCI/ESC190/labs/lab11/build/Debug/outDebug"
     }
   ]
 }
