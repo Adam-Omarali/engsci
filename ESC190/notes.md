@@ -159,3 +159,12 @@ class AcornStudent(inherit): #where inherit is an class AcornStudent should inhe
     def __lt__(self, other): #define how to compare two objects when ('obj1 < obj2' is called)
         return self.mark < other.mark
 ```
+
+
+## Algortihms
+
+### Djikstra's
+Consider the priority queue implementation of Djikstra's. The pop and push time to the pq
+costs $O(\log(V))$, where V is the number of nodes in the heap. How many times do you have 
+to pop and push to the pq? It will be E times, where E is the number of edges.
+So the total time complexity is $O(E\log(v))$
