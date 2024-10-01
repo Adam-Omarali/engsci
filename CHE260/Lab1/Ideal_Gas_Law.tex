@@ -1,0 +1,378 @@
+\documentclass[titlepage, twocolumn, 12pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{caption}
+\graphicspath{ {./images/} }
+\usepackage{float}
+\usepackage{setspace}
+%\usepackage{wrapfig}
+\setlength{\textwidth}{6.8in}
+\setlength{\textheight}{9.5in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\topmargin}{-2.3 cm}
+\setlength{\parskip}{0.7cm plus2mm minus 2mm} % space between paragraphs
+\setlength{\parindent}{0 cm}
+\usepackage{titlesec}
+\titlespacing*% the star= don't indent first paragraph after
+    {\subsection}% which command you want to set the spacing for
+    {0pt}% spacing to the left of heading
+    {0ex}% spacing before the heading
+    {0.1ex}% spacing after the heading
+\titlespacing*% the star= don't indent first paragraph after
+    {\section}% which command you want to set the spacing for
+    {0pt}% spacing to the left of heading
+    {0ex}% spacing before the heading
+    {0.1ex}% spacing after the heading
+\doublespacing
+\begin{document}
+
+\begin{titlepage}
+\centering
+
+\includegraphics[width = 150mm]{Logo.png}
+\begin{center}
+\huge
+Path Independence of Thermodynamic\\State Properties\vspace{0.5cm}
+
+\small CHE260, PRA0101 Sep 18th 12-3PM Group 2, Lab 1 Ideal Gas Law
+
+
+\large
+Adam Omarali 1010132866\\ Danny Cui 1010042277\\ Dharsh Nagrani 1010040778\\ Eric Kim 1010043089
+
+25th September 2024
+\end{center}
+
+\end{titlepage}
+
+
+\section{Abstract}
+
+This report applies the ideal gas law to a closed, pressurized two tank system. Two different pathways of reaching equilibrium (one isobaric, one isothermic) result in the same final equilibrium state. The final calculated volume ratio between the two tanks was \(\frac{V_{L}}{V_{R}}=1.87\). The initial mass of gas in the left tank was \(12.7g\). The volume of the left tank was \(9.79\times10^{-3} m^3\). The ideal gas equation is accurate for describing the properties of air, despite compressibility and other factors.
+
+\section{Introduction}
+An important idea in thermodynamics is that–given an ideal gas–the pathway of state change has no effect on the final properties of a given system. The experiment aims to verify this hypothesis by equalizing gas pressure between two tanks at different rates, and confirming that the final equilibrium conditions of the two are the same. A secondary objective is to determine the initial mass and volume of a tank with minimal error. This report will outline the experiment procedures, and discuss the results and sources of error.
+
+The primary equation used in this experiment is the Ideal Gas Law:
+\begin{align}
+    PV = nRT
+\end{align}
+
+\begin{enumerate}
+    \item P - pressure
+	\item V - volume
+	\item n - amount of gas in moles
+	\item R - ideal gas constant
+	\item T - temperature
+\end{enumerate}
+%Substituting \(m_{air}\) for \(n\) and \(R_{air}\) for \(R\) allows us to use kg of air instead of molar values, giving us the following equation:
+
+%\begin{align}
+    %PV = m_{air}R_{air}T
+%\end{align}
+These findings have potential applications in industries where compression-expansion cycles are common, such as turbines and engines, or heat pumps. It also considers the real-world accuracy of the ideal gas equation.
+
+\section{Apparatus}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.12]{images/Apparatus.jpeg}
+    \caption{Overview of experimental setup [1]}
+    \label{fig:app}
+\end{figure}
+
+The experimental setup consists of two transparent, sealed tanks connected via a network of pipes and valves to pumps, each other, and the ambient air.
+
+The primary pieces of apparatus utilized for this experiment are:
+
+\begin{itemize}
+    \item A manometer to measure ambient pressure.
+    \item Two sealed tanks of roughly equal volume (bottom of fig \ref{fig:app}).
+    \item Solenoid valves and hand-turned valves to connect/isolate parts of the system.
+    \item Two pressure gauges to measure the internal pressure of each tank (center of fig \ref{fig:app}).
+    \item A pump to pressurize/depressurize the two tanks (right of fig \ref{fig:app} in background).
+    \item A globe valve to rapidly equalize pressure between the two tanks (center of fig \ref{fig:app}).
+    \item A micrometer needle valve to slowly equalize pressure between the two tanks (center of fig \ref{fig:app}).
+    \item Temperature and pressure sensors within each tank.
+    \item A computer running LabVIEW to facilitate control over solenoid valves and pressurization/depressurization of tanks, and to record data from sensors in real time (left of fig \ref{fig:app} out of view).
+\end{itemize}
+
+\section{Preparatory Procedures}
+
+\subsection{Initial Setup}
+\begin{enumerate}
+    \item Record the ambient pressure using the manometer in the lab.
+    \item Click the ‘Start Collecting Data’ button in LabVIEW to begin recording the results on the graphs.
+\end{enumerate}
+\subsection{Pressurise Left Tank}
+\begin{enumerate}
+    \item Open Valve A2.
+    \item Open the Left Solenoid valve by pressing the ‘Left Solenoid’ button in LabVIEW once.
+    \item Using LabVIEW, set the Flow Rate to 50 g/min.
+    \item When the pressure reaches 40 psig in the left chamber, close the left solenoid valve by clicking the ‘Left Solenoid’ button in LabVIEW once.
+    \item Close Valve A2.
+    \item Using LabVIEW, set the Flow Rate to 0 g/min.
+\end{enumerate}
+\subsection{Pull Vacuum In Right Tank}
+\begin{enumerate}
+    \item Open Valves A1 and A5.
+    \item Open the Right Solenoid valve by pressing the ‘Right Solenoid’ button in LabVIEW once.
+    \item Using LabVIEW, set the Flow Rate to 50 g/min.
+    \item When the pressure reaches -6 psig in the right chamber, close the right solenoid valve by clicking the ‘Right Solenoid’ button in LabVIEW once.
+    \item Close Valves A1 and A5.
+    \item Using LabVIEW, set the Flow Rate to 0 g/min.
+\end{enumerate}
+
+\section{Specific Procedures}
+
+\subsection{Method 1: Procedure for Rapid Expansion}
+
+\begin{enumerate}
+    \item Perform above mentioned general procedure (section 4)
+    \item Use the LabVIEW program to open the centre solenoid valve and keep it open until the temperature difference between the two tanks is insignificant (approximately 45 seconds).
+    \item After the temperature stabilises, use LabVIEW to empty both tanks.
+    \item Click ‘Stop Recording’ in LabVIEW and save the data as requested by your TAs.
+    \item Click ‘Reset’ in LabVIEW to prepare for the next steps.
+\end{enumerate}
+
+\subsection{Method 2: Procedure for Slow Expansion}
+
+\begin{enumerate}
+    \item Perform above mentioned general procedure (section 4)
+    \item Open the small ball valve (B2) and open the micrometre valve by turning it counterclockwise 4 times. Leave both valves open until there is an insignificant pressure difference between the two tanks (approximately 10 minutes).
+    \item Click ‘Stop Recording’ in LabVIEW and save the data as requested by your TAs.
+    \item Click ‘Reset’ in LabVIEW to prepare for the next steps.
+    \item Close both the small ball valve and the micrometre valve.
+\end{enumerate}
+
+\subsection{Procedure for Determining Initial Mass and Volume}
+\begin{enumerate}
+    \item Perform above mentioned general procedure (section 4.1 and 4.2).
+    \item Wait until the values for pressure (P) and temperature (T) on the graphs in LabVIEW remain constant, confirming that the system has reached equilibrium.
+\end{enumerate}
+
+
+
+\section{Results}
+This section presents collected data for verifying path independence and calculating the mass and volume of the left tank.
+\subsection{Path Independence}
+
+\subsubsection{Method 1}
+
+Following 5.1, the procedure for rapid expansion:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.35]{images/Method_1.png}
+    \captionsetup{justification=centering, font={doublespacing}}
+    \caption{The pressure and temperature for both tanks during rapid expansion.}
+    \label{fig:method1}
+\end{figure}
+
+While pressurizing the left tank to 39.4 psi and vacuuming the right tank to -6.20 psi, the temperatures in the both tanks remained relatively equal at around 27.9\(^{\circ}\) for tank 1 and 26.8\(^{\circ}\) for the tank 2 as seen in Figure \ref{fig:method1}. Once the center solenoid was opened, there was a rapid drop in both pressure and temperature in tank 1, and a rise in both in tank 2. The two pressures equalised almost immediately at 23.8 psi and 23.1 psi respectively. It took longer for the temperatures to equalise, eventually settling at 27.7\(^{\circ}\) and 30.0\(^{\circ}\) respectively. The following key data is shown in Table \ref{table1}
+
+\setlength{\tabcolsep}{0.5em} % for the horizontal padding
+\begin{table}[]
+\centering
+\begin{tabular}{|ll|ll|}
+\hline
+\multicolumn{2}{|l|}{Left Tank (1)}     & \multicolumn{2}{l|}{Right Tank (2)}    \\ \hline
+\multicolumn{1}{|l|}{$P_{1i}$} & $23.8psi$ & \multicolumn{1}{l|}{$P_{2i}$} & $23.1psi$ \\ \hline
+\multicolumn{1}{|l|}{$T_{1i}$} & $17.5^{\circ}C$    & \multicolumn{1}{l|}{$T_{2i}$} & $40.1^{\circ}C$    \\ \hline
+\multicolumn{1}{|l|}{$P_{1f}$} & $23.8psi$ & \multicolumn{1}{l|}{$P_{2f}$} & $23.1psi$ \\ \hline
+\multicolumn{1}{|l|}{$T_{1f}$} & $27.7^{\circ}C$    & \multicolumn{1}{l|}{$T_{2f}$} & $30.0^{\circ}C$      \\ \hline
+\end{tabular}
+\captionsetup{justification=centering, font={doublespacing}}
+\caption{Pressure and temperature readings immediately after expansion (subscript $i$) and after one minute given to reach equilibrium (subscript $f$)}
+\label{table1}
+\end{table}
+
+\subsubsection{Method 2}
+Following 5.2, the procedure for slow expansion, tank 1 was initially brought up to 39.7 psi and tank 2 to -5.70 psi. The initial temperature was 27.9\(^{\circ}\) in tank 1 and 25.4\(^{\circ}\) in tank 2. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{images/Method_2.png}
+    \captionsetup{justification=centering, font={doublespacing}}
+    \caption{The pressure and temperature for both tanks during slow expansion.}
+    \label{fig:method2}
+\end{figure}
+
+\setlength{\belowcaptionskip}{0cm}
+Once the micrometer valve was opened, the pressures begin to equalize as seen in Figure \ref{fig:method2}, though at a much slower rate compared to method 1. There is also a slight increase in the temperature of tank 2, though the temperature in tank 1 remains relatively stable throughout the process. It takes around 13 minutes to reach equilibrium. The key data is summarized in Table \ref{table-method2}.
+
+\setlength{\tabcolsep}{0.5em} % for the horizontal padding
+\begin{table}[]
+\centering
+\begin{tabular}{|ll|ll|}
+\hline
+\multicolumn{2}{|l|}{Left Tank (1)}     & \multicolumn{2}{l|}{Right Tank (2)}    \\ \hline
+\multicolumn{1}{|l|}{$P_{1i}$} & $39.7psi$ & \multicolumn{1}{l|}{$P_{2i}$} & $-5.70psi$ \\ \hline
+\multicolumn{1}{|l|}{$T_{1i}$} & $27.9^{\circ}C$    & \multicolumn{1}{l|}{$T_{2i}$} & $25.5^{\circ}C$    \\ \hline
+\multicolumn{1}{|l|}{$P_{1f}$} & $24.0psi$ & \multicolumn{1}{l|}{$P_{2f}$} & $23.8psi$ \\ \hline
+\multicolumn{1}{|l|}{$T_{1f}$} & $28.0^{\circ}C$    & \multicolumn{1}{l|}{$T_{2f}$} & $28.3^{\circ}C$      \\ \hline
+\end{tabular}
+\captionsetup{justification=centering, font={doublespacing}}
+\caption{Pressure and temperature readings immediately after pressurizing and vacuuming (subscript $i$), and after 13 minutes given to reach equilibrium (subscript $f$)}
+\label{table-method2}
+\end{table}
+
+\subsection{Determining Initial Mass and Volume}
+
+Following procedure 5.3, air is introduced into the left tank at an increasing flow rate (Figure \ref{fig:flow}) until the pressure reaches $40psi$. Data is collected until the final state where pressure and temperature stabilize at $40psi$ and $28.55^{\circ}$C as seen in Figure \ref{fig:initial-mass}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{images/mass-flow-rate.png}
+    \captionsetup{justification=centering, font={doublespacing}}
+    \caption{Mass flow rate over time.}
+    \label{fig:flow}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{images/2a-start.png}
+    \captionsetup{justification=centering, font={doublespacing}}
+    \caption{The pressure and temperature are displayed while air flows in until $t\approx45s$ and when temperature stabilizes.}
+    \label{fig:initial-mass}
+\end{figure}
+
+
+\section{Discussion}
+
+In method 1, rapid pressure equalization leads to adiabatic conditions initially, where minimal heat is exchanged with the surroundings, meaning temperature changes are driven purely by the expansion process. This is shown by the sudden spike in temperature in Figure \ref{fig:method1} at $t=390s$. 
+
+The tanks come to equilibrium through an isobaric process, as seen by the identical initial and final pressures in Table \ref{table1}. The relatively short amount of time taken to reach equilibrium (roughly a minute) means heat transfer with surrounding was minimal but not negligible. This is shown by gradual decay in temperature in Figure \ref{fig:method1} starting at $t=391s$.
+
+For method 2, the longer duration allowed more time for heat transfer between the gas in the tanks and their surroundings, leading to a roughly isothermic process. This is shown by the small deviation in initial and final temperature values in Table \ref{table-method2} and approximately constant temperature curves in Figure \ref{fig:method2}.
+
+\subsection{Determining the Volume Ratio Between Both Tanks}
+
+To determine the volume ratio between the tanks we start out with three initial assumptions:
+\begin{enumerate}
+    \item Treat the air in the tanks as an ideal gas.
+    \item No heat was exchanged between tanks.
+    \item The net amount of gas (moles) in the two tanks remained constant.
+\end{enumerate}
+
+The first step is to convert from gauge pressure (values in Table \ref{table-method2}) to absolute pressure values by adding ambient pressure which was recorded as \(1.009 bar = 14.6 psi\), giving:
+\begin{align*}
+P_1&=372317 Pa 
+\\P_2&=57916 Pa 
+\\P_f&=262690 Pa
+\end{align*}
+We then convert the temperatures recorded to units of Kelvin, giving:
+\begin{align*}
+T_1=301.45 K
+\\T_2=300.25 K
+\\T_f=301.15 K
+\end{align*}
+Applying the ideal gas law to the air in tanks we arrive at an expression for the initial and equilibrium states:
+\begin{align}
+    P_1V_1 = n_1RT_1
+    \\P_2V_2 = n_2RT_2
+\end{align}
+Rearranging for n and since \(n_f = n_1+n_2\):
+\begin{align}
+    n_f = \frac{P_1V_1}{RT_1} + \frac{P_2V_2}{RT_2}
+\end{align}
+And \(n_f\) representing the equilibrium number of moles can also be expressed as:
+\begin{align}
+    n_f = \frac{P_f(V_1 +V_2)}{RT_f}
+\end{align}
+Therefore given our previous calculated values for \(T_1, T_2, T_f\) and \(P_1, P_2, P_f\), we can equate both expressions and simplify to (to three significant figures):
+\begin{align*}
+    \frac{V_1}{V_2} &= \frac{\frac{P_f}{T_f}- \frac{P_2}{T_2}}{\frac{P_1}{T_1}- \frac{Pf}{Tf}}\\
+\end{align*}
+Giving us the volume ratio:
+\begin{align*}
+    \frac{V_1}{V_2} &=1.87
+\end{align*}
+
+\subsection{Analysing path independence of Temperature and Pressure}
+As can be seen in both methods discussed above, the final equilibrium states the two tanks reached were not affected by their pathway.
+
+Method 1 reached a final mean temperature between the two tanks of \(28.9^{\circ}C\) and a mean pressure of \(23.5^{\circ}C\), whereas method 2 reached a final mean temperature of \(28.2^{\circ}C\) and a mean pressure of \(23.9psi\).
+
+This gives an error of \(2.42\%\) for temperature and \(1.67\%\) for pressure, which is within experimental uncertainty.
+
+Thus we have shown that the two tanks have reached the same thermodynamic equilibrium state through two different pathways: an isobaric one, and an isothermic one.
+
+\subsection{Determining Mass and Volume in Left Tank}
+
+There are two stable states in Figure \ref{fig:initial-mass} where the ideal gas law can be applied: at $t=0s$ (initial) before air flows into the tank and when the temperature stabilizes after transferring heat to the surroundings ($t=95s$, final).
+In order to determine the initial mass of air in the tank we can apply ideal gas law since the initial and final volume of the tank are equal. Variables (where all pressures are converted from gauge pressure to absolute pressure):
+\begin{align*}
+    P_i = 112384.5 Pa\\
+    T_i = 300.25 K \\
+    P_f = 367490.6 Pa\\
+    T_f = 301.55 K \\
+    M_a = 0.0228 kg\\
+    R =  287 J/kg·K \\
+\end{align*}
+Where \(M_a\) is the mass of air which flowed into the tank to pressurize it. This was determined by using Matlab to perform numerical integration to determine the area under the mass flow graph in Figure \ref{fig:flow}.
+We can now determine initial mass by equating expressions for the initial and final volume to yield:
+\begin{align}
+    m_i = \frac{P_iT_fM_a}{P_fT_i-T_fP_i}
+\end{align}
+Which gives us the mass of air within the tank:
+\begin{align*}
+    m_i &= 1.27\times10^{-2}kg = 12.7g
+\end{align*}
+Using initial mass we can use equation 8 solve for initial volume, which gives:
+\begin{align*}
+V_i &= 9.79\times10^{-3}m^3
+\end{align*}
+
+\section{Sources of Error}
+\vspace{-0.5cm}
+\subsubsection*{Inadequate Waiting Time}
+\vspace{-0.5cm}
+The waiting time for pressure and temperature to stabilise may have been insufficient. Given that we were visually inspecting the graph to determine when it appeared that pressure and temperature equalised, we could have prematurely ended data collection. This may have led to recording fluctuating or non-equilibrium values, resulting in errors in data collection.
+
+This source of error is a random error, as it could have been mitigated by conducting multiple trials and averaging the value for the mass injected into the tanks. This change to the experimental design would provide a more accurate estimate of the mass of air injected into the tank.
+\subsubsection*{Equipment-Related Errors}
+\vspace{-0.5cm}
+Loose connections or improperly tightened valves can lead to gas leaks, causing pressure drops and fluctuating readings. Such leaks not only compromise the integrity of the system but also introduce uncertainty into the data collected. Furthermore, sensors may sometimes be inaccurate; for example, the mass flow rate was occasionally measured as negative.
+
+\subsubsection*{Impact of Air Compressibility}
+\vspace{-0.5cm}
+In thermodynamics, the compressibility factor \(Z\), also known as the compression factor or the gas deviation factor, describes the deviation of a real gas from ideal gas behaviour. It is defined as the ratio of the molar volume of a gas to the molar volume of an ideal gas at the same temperature and pressure.
+
+For an ideal gas, the compressibility factor is \(Z = 1\) by definition. In many real-world applications, requirements for accuracy demand that deviations from ideal gas behaviour be taken into account. The value of \(Z\) generally increases with pressure and decreases with temperature.
+
+Normal air comprises approximately 80\% nitrogen and 20\% oxygen. Both molecules are small and non-polar. We can therefore expect that the behaviour of air within broad temperature and pressure ranges can be approximated as an ideal gas with reasonable accuracy. Experimental values for the compressibility factor confirm this. We notice in the temperature and pressure ranges in which the experiment was performed (1 - 3 bar and between 300 to 302 K), the experimental values for the compressibility factor of air were approximately 0.9999 given by Figure \ref{fig:compressibility}. Therefore, our initial approximation of air as an ideal gas remains accurate.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{images/air_compressability.png}  % Adjust width as needed
+    \captionsetup{justification=centering, font={doublespacing}}
+    \caption{Compressibility factor in different temperature and pressure ranges [4]}
+    \label{fig:compressibility}
+\end{figure}
+
+
+\section{Conclusion}
+
+This experiment confirmed the path independence of state properties, specifically temperature and pressure. This was verified through two modes of pressure and temperature equalization—one with a faster equalization time and the other slower—both resulting in the same final equilibrium state. We determined the volume ratio between the left and right tanks to be 1.87 and found that the initial mass of air in the left tank was 12.7 g, with an initial volume of \( 9.79 \times 10^{-3} \, \text{m}^3 \).
+
+While both methods arrived at the final equilibrium state, Method 1 demonstrated negligible heat transfer to the surroundings due to adiabatic expansion. In contrast, although Method 2 involved a longer duration, heat transfer was minimal since the tank temperature did not significantly exceed ambient temperature.
+
+When considering potential sources of error, we concluded that air compressibility did not impact our experiment, as we operated within pressure and temperature ranges that allowed air to behave as an ideal gas.
+
+For future studies, a critical point for improvement would be ensuring the repeatability of results by conducting multiple trials to mitigate random errors. 
+
+\section{References}
+
+[1] CHE260H1, "Introductory Manual", Year Accessed (2024)
+
+
+[2] Vasserman, Kazavchinskii, and Rabinovich, "Thermophysical Properties of Air and Air Components;' Moscow, Nauka, 1966 
+
+
+[3] Introduction to Chemical Engineering Thermodynamics (Seventh ed.). McGraw Hill 
+
+[4] Perry's chemical engineers' handbook (Sixth ed.). MCGraw-Hill.
+
+
+\end{document}
