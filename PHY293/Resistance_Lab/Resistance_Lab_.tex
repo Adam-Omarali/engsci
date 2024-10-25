@@ -1,0 +1,268 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{changepage}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9.9in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
+\setlength{\topmargin}{-2.5 cm}
+\setlength{\parskip}{0.7\baselineskip} % space between paragraphs
+\setlength{\parindent}{0 cm} % increase this if you like paragraphs to be indented
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{natbib}  % For bibliography styles
+\usepackage{amsmath}
+
+
+\pagestyle{empty}
+
+\newcommand{\e}{\mathrm{e}}
+
+\begin{document}
+
+\title{\bf{Output Resistance of a Power Supply}}
+\author{Adam Omarali (1010132866), Eric Kim (1010043089)}
+\date{October 8 2024 \linebreak 
+PHY293}
+\maketitle
+
+\begin{figure}[H]
+    \begin{centering}
+    \includegraphics[width=0.5 \textwidth]{img/circuits.png}
+    \label{fig:Circuits}
+    \caption{Possible circuits for determining the output resistance of a power source}
+    \end{centering}
+\end{figure}
+
+\section{Prelab}
+Q1: Without connecting circuits and making measurements, how would you expect the readings of the voltmeter and the ammeter to differ between Option 1 and in Option 2? Explain.
+
+Ideally, a voltmeter has very high internal resistance so no current flows through it, and an ideal ammeter would have very low internal resistance so it doesn't affect the current flowing through it. 
+However, realistically, there would still be some current flowing through the voltmeter since the internal resistance cannot be infinite. 
+Therefore, the ammeter in option 1 would read a slightly lower current than option 2 as some of the current would go through the voltmeter instead of the resistor (since current splits across parallel branches). 
+The voltmeter would show a higher difference in option 1, as the ammeter in option 2 would still have some slight resistance which would cause a slight voltage difference between the nodes connected to the power source and the node connecting the ammeter, voltmeter, and resistor.
+
+Q2: To calculate the resistance of the power source, you will need to know the internal resistance of the voltmeter and the ammeter. How can you find these values by making measurements of current and voltage with the Option 1 and Option 2 circuits? Derive the general formulae for the internal resistance of the voltmeter and the ammeter based on the results of these measurements and the known resistance of the load.
+
+For Circuit 1
+\begin{align}
+    V_1=I_1(R_l+R_a) \\
+    R_{A}=\frac{V_1}{I_1} - R_l
+    \label{eq:Ra}
+\end{align}
+$V_1$: Voltmeter Reading from Option 1 \\
+$R_A$: Internal Resistance of Ammeter \\
+$I_1$: Ammeter Reading from Option 1 \\
+$R_l$: Resistance of the Load 
+
+For Circuit 2
+\begin{align}
+    I_2=I_l+I_v=\frac{V_2}{R_l}+\frac{V_2}{R_v}\\
+    R_{V}=\frac{V_2}{I_2 - \frac{V_2}{R_l}}
+    \label{eq:Rv}
+\end{align}
+
+$V_2$: Voltmeter Reading from Option 2 \\
+$R_V$: Internal Resistance of Voltmeter \\
+$I_2$: Ammeter Reading from Option 2 \\
+$R_l$: Resistance of the Load \\
+$I_l$: Current through the load, option 2 \\
+$I_v$: Current through the voltmeter, option 2
+\section{Experiment}
+
+\begin{table}[H]
+\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c |}
+    \hline	
+    $R_{l1} \Omega$ & $\Delta R_{l1} \Omega$ &
+    $R_{l2} \Omega$ & $\Delta R_{l2} \Omega$ &
+    $R_{l3} \Omega$ & $\Delta R_{l3} \Omega$ &
+    $R_{l4} \Omega$ & $\Delta R_{l4} \Omega$ &
+    $R_{l5} \Omega$ & $\Delta R_{l5} \Omega$ &
+    $R_{l6} \Omega$ & $\Delta R_{l6} \Omega$ \\
+    \hline
+    99.94 & 0.24 & 219.64 & 0.48 & 467.0 & 1.4 & 2696 & 5 & 26940 & 58 & 105950 & 216 \\
+    \hline
+\end{tabular}
+\caption{Measured resistance (all in ohms) of given resistors and their uncertainty.}
+\label{table:1}
+\end{table}
+
+Example calculations using the spec sheet formula: \\
+        $\Delta R_{l1} = \frac{0.2}{100} + 5 * 0.01 = 0.2498 \Omega$ ||
+        $\Delta R_{l6} = \frac{0.2}{100} + 5 * 0.01 * 10^3 = 216.9 \Omega$
+
+Q3: Choose at least 4 of these resistors to construct circuits for this experiment. Briefly justify your choice.
+
+To reduce error propogation when calculating the internal resistance of the ammeter and voltmeter, we chose resistors with the smallest error.
+
+\subsection*{Circuit 1}
+
+\begin{figure}[H]
+    \begin{centering}
+    \includegraphics[width=0.5 \textwidth]{img/circuit_1.png}
+    \label{fig:c1}
+    \caption{This circuit includes a DC battery, a resistor, an ammeter, and a voltmeter}
+    \end{centering}
+\end{figure}
+
+\begin{table}[H]
+    \begin{adjustwidth}{-1cm}{}
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|lll}
+    \cline{1-9}
+                             & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Resistance\\ $R_{li}, \Omega$\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Uncertainty\\ $\Delta R_{li}, \Omega$\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Voltage\\ $V$, V\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Uncertainty\\ $\Delta V$,V\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Current\\ $I$, mA\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Uncertainty\\ $\Delta I$, mA\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Resistance of \\ ammeter\\ $R_A, \Omega$\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Uncertainty\\ $\Delta R_A, \Omega$\end{tabular}}} &  &  &  \\ \cline{1-9}
+    \textbf{1}               & 99.94                                                                                   & 0.24                                                                                   & 6.309                                     & 0.001                                                                                & 61.720                                                                                 & 0.007                                                                                    & 2.280                                                                                             & 0.250                                                                                 &  &  &  \\ \cline{1-9}
+    \textbf{2}               & 219.64                                                                                  & 0.48                                                                                  & 6.305                                     & 0.001                                                                                & 28.425                                                                                & 0.007                                                                                  & 2.172                                                                                             & 0.492                                                                                  &  &  &  \\ \cline{1-9}
+    \textbf{3}               & 467.0                                                                                     & 1.4                                                                                  & 6.311                                     & 0.001                                                                                & 13.445                                                                                & 0.007                                                                                   & 2.394                                                                                             & 1.454                                                                                   &  &  &  \\ \cline{1-9}
+    \textbf{4}               & 2696                                                                                    & 5                                                                                   & 6.318                                     & 0.001                                                                                & 2.341                                                                                 & 0.005                                                                                  & 2.847                                                                                             & 8.243                                                                                   &  &  &  \\ \cline{1-9}
+                             &                                                                                         &                                                                                          &                                           &                                                                                 &        & \multicolumn{1}{c|}{\textbf{Average:}}                                                & 2.423                                                                                     & 2.610                                                                                   &  &  &  \\ \cline{1-9}
+    \end{tabular}
+    \end{adjustwidth}
+    \label{table:2}
+    \caption{Measured values for the resistance of the load, voltage, current, and resistance of the ammeter using the setup captured in Figure 2. The resistance of the ammeter is calculated using Equation \ref{eq:Ra}.}
+\end{table}
+
+The equation for the error in the resistance of the ammeter used in Table 2 is given by:
+\begin{align}
+    \frac{\partial R_A}{\partial V_1} = \frac{V}{I} \qquad
+    \frac{\partial R_A}{\partial I_1} = -\frac{V}{I^2} \qquad
+    \frac{\partial R_A}{\partial R_l} = -1 \\
+    \Delta R_A = \sqrt{\left(\frac{\Delta V_1}{I_1}\right)^2 + \left(\frac{V \Delta I_1}{I{_1}^2}\right)^2 + \left(\Delta R_l\right)^2}
+    \label{eq:deltaRa}
+\end{align}
+
+\begin{figure}[H]
+    \begin{centering}
+    \includegraphics[width=0.5 \textwidth]{img/V_vs_I.png}
+    \label{fig:v_i_c1}
+    \caption{Voltage vs Current for the circuit in Figure 2. The y error bars are $\pm 0.005$ and x error bars $\pm 0.007$. 
+    The best fit line is described by $V = m_1I + b$ where $m_1 = (-0.000125 \pm 0.000119)\ \frac{V}{mA}$ and $b = (6.314 \pm  0.004)\ V$. These uncertainties are calculated using one standard deviation of the slope and intercept.}
+    \end{centering}
+\end{figure}
+
+One goodness of fit criteria is the coeffecient of determination, $R^2$.
+\begin{equation}
+    R^2 = 1 - \frac{(N-2)s_{V, I}^2}{\sum_{i=1}^{n} (V_i - \bar{V})^2}
+\end{equation}
+where $N$ is the number of resistors measured, $s_{V, I}^2$ is the variance, $V_i$ are the observed voltage values, and $\bar{V}$ is the mean of the observed voltage values.
+The value of $R^2 = 0.355$ means the best fit line poorly captures the variance in the current.
+
+Another goodness of fit criteria is the $\chi^2$ value.
+\begin{equation}
+    \chi^2 = \sum_{i=1}^{n} \frac{(V_i - mI_i - b)^2}{mI_i + b}
+\end{equation}
+where $V_i$ are the observed voltage values, $m$ is the slope of the best fit line, $I_i$ are the observed current values, $b$ is the y-intercept of the best fit line.
+
+The value of $\chi^2 = 9.06*10^{-6}$, meaning the empirically observed values and the values expected given the line of best fit differ very little.
+
+\subsection*{Circuit 2}
+
+\begin{figure}[H]
+    \begin{centering}
+    \includegraphics[width=0.5 \textwidth]{img/c_2.jpeg}
+    \label{fig:another}
+    \caption{This circuit includes a DC battery, a resistor, an ammeter, and a voltmeter}
+    \end{centering}
+\end{figure}
+
+\begin{table}[H]
+    \begin{adjustwidth}{-1cm}{}
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|lll}
+    \cline{1-9}
+                             & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Resistance\\ $R_{li}, \Omega$\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Uncertainty\\ $\Delta R_{li}, \Omega$\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Voltage\\ $V$, V\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Uncertainty\\ $\Delta V$,V\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Current\\ $I$, mA\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Uncertainty\\ $\Delta I$, mA\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Resistance of \\ voltmeter\\ $R_V, \Omega$\end{tabular}}} & \multicolumn{1}{c|}{{\begin{tabular}[c]{@{}c@{}}Uncertainty\\ $\Delta R_V, \Omega$\end{tabular}}} &  &  &  \\ \cline{1-9}
+    \textbf{1}               & 99.94                                                                                   & 0.24                                                                                   & 6.158                                     & 0.001                                                                                & 61.530                                                                                 & 0.007                                                                                    & -70805                                                                                             & 127276                                                                                &  &  &  \\ \cline{1-9}
+    \textbf{2}               & 219.64                                                                                  & 0.48                                                                                  & 6.236                                     & 0.001                                                                                & 28.398                                                                                & 0.007                                                                                  & 1024653                                                                                             & 11189960                                                                                  &  &  &  \\ \cline{1-9}
+    \textbf{3}               & 467.0                                                                                     & 1.4                                                                                  & 6.276                                     & 0.001                                                                                & 13.437                                                                                & 0.007                                                                                   & -3182293                                                                                             & 68206728                                                                                   &  &  &  \\ \cline{1-9}
+    \textbf{4}               & 2696                                                                                    & 5                                                                                   & 6.306                                     & 0.001                                                                                & 2.339                                                                                 & 0.005                                                                                  & -303588857                                                                                             & 100473596353                                                                                   &  &  &  \\ \cline{1-9}
+                             &                                                                                         &                                                                                          &                                           &                                                                                 &        & \multicolumn{1}{c|}{\textbf{Average:}}                                                & -76454325                                                                                     & 25138280080                                                                                   &  &  &  \\ \cline{1-9}
+    \end{tabular}
+    \end{adjustwidth}
+    \label{table:3}
+    \caption{Measured values for the resistance of the load, voltage, current, and resistance of the ammeter using circuit in Figure 4. The resistance of the voltmeter is calculated using Equation \ref{eq:Rv}.}
+\end{table}
+
+The equation for the error in the resistance of the voltmeter used in Table 3 is given by:
+\begin{align}
+    \frac{\partial R_V}{\partial V_2} = \frac{I_2R{_l}^2}{(I_2R_l - V_2)^2} \qquad
+    \frac{\partial R_V}{\partial I_2} = -\frac{V_2R{_l}^2}{(I_2R_l - V_2)^2} \qquad
+    \frac{\partial R_V}{\partial R_l} = -\frac{V_2}{(I_2R_l - V_2)^2} \\
+    \Delta R_V = \sqrt{\left(\Delta V_2{\frac{I_2R{_l}^2}{(I_2R_l - V_2)^2}}\right)^2 + \left(\Delta I_2\frac{-V_2R{_l}^2}{(I_2R_l - V_2)^2}\right)^2 + \left(\Delta R_l \frac{-V_2^2}{(I_2R_l - V_2)^2}\right)^2}
+    \label{eq:deltaRv}
+\end{align}
+
+These errors are very large due to the denominator of the partial derivatives. This is because the voltage measured by the voltmeter is near identical to the voltage across the load resistor, so the denominator is near zero.
+
+\begin{figure}[H]
+    \begin{centering}
+    \includegraphics[width=0.5 \textwidth]{img/V_vs_I_2.png}
+    \label{fig:v_i_c2}
+    \caption{Voltage vs Current for the circuit in Figure 4. The y error bars are $\pm 0.005$ and x error bars $\pm 0.007$ (both are not visible due to scale). 
+    The best fit line is described by $V = m_2I + b$ where $m_2 = (-0.002490 \pm 0.000006)\ \frac{V}{mA}$ and $b = (6.3098 \pm 0.0021)\ V$.}
+    \end{centering}
+\end{figure}
+
+The value of $R^2 = 0.998$ means the best fit line does a good job of capturing the variance in the current.
+
+The value of $\chi^2 = 2.521 * 10^{-6}$ means the empirically observed values and the values expected given the line of best fit differ very little.
+
+\subsection*{Finding Internal Resistance}
+The equation for the voltage seen by the terminals of a power source is given by:
+\begin{align}
+    V = V_{\infty} - IR
+\end{align}
+
+The relationship between voltage and current displayed in Figure 3 and 5 gives $R = -m_1$.
+
+\begin{figure}[H]
+    \begin{centering}
+    \includegraphics[width=0.5 \textwidth]{img/thev_1.jpeg}
+    \label{fig:thev1}
+    \caption{Circuit 1 and its thevinin equivalent showing the internal resistance of the power source ($R_1$).}
+    \end{centering}
+\end{figure}
+
+Assuming the internal resistance of the ammeter is negligible, the equivalent resistance seen by the circuit is given by:
+\begin{align}
+    R_{eq} = \frac{R_1R_V}{R_1 + R_V} = -m_1 \\
+    R_1 = \frac{-m_1R_V}{R_V + m_1}
+\end{align}
+
+The error for the internal resistance is then given by:
+\begin{align}
+    \frac{\partial R_1}{\partial m_1} = \frac{-R_V^2}{(R_V + m_1)^2} \qquad
+    \frac{\partial R_1}{\partial R_V} = \frac{-m_1^2}{(R_V + m_1)^2} \qquad \\
+    \Delta R_1 = \sqrt{\left(\Delta m_1 \frac{-R_V^2}{(R_V + m_1)^2}\right)^2 + \left(\Delta R_V \frac{-m_1^2}{(R_V + m_1)^2}\right)^2}
+\end{align}
+
+Now for circuit 2:
+
+\begin{figure}[H]
+    \begin{centering}
+    \includegraphics[width=0.5 \textwidth]{img/thev_2.jpeg}
+    \label{fig:thev2}
+    \caption{Circuit 2 showing the internal resistance of the power source ($R_1$).}
+    \end{centering}
+\end{figure}
+Comparing the circuit in Figure 7 and its thevinin equivalent, the equivalent resistance seen by the circuit is given by:
+\begin{align}
+    R_{eq} = R_2 + R_A = -m_2 \\
+    R_2 = -m_2 - R_A
+\end{align}
+
+The error for the internal resistance is then given by:
+\begin{align}
+    \frac{\partial R_2}{\partial m_2} = -1 \qquad
+    \frac{\partial R_2}{\partial R_A} = -1 \qquad \\
+    \Delta R_2 = \sqrt{\left(\Delta m_2\right)^2 + \left(\Delta R_A\right)^2}
+\end{align}
+
+Therefore $R_1 = 0.125 \pm 0.118 \Omega$ and $R_2 = 0.067 \pm 2.61 \Omega$. These are calculated using the slopes given in Figure 3 and 5, and the avergae values for $R_V, R_A$ and their uncertainties listed in Tables 2 and 3.
+
+\section{Conclusion}
+Both of the internal resistance values fall within each others uncertainties, meaning both circuit options 1 and 2 confirm a similar internal resistance of the power source.
+A difference between the values is expected due to the different placements of the ammeters and voltmeters, and the instruments themselves being non-ideal. 
+The uncertainty for $R_2$ is much larger than $R_1$. This is due mainly to the uncertainty in the ammeter resistance, which can only be improvement by a more accurate multimeter.
+
+
+\end{document}

@@ -1,0 +1,223 @@
+\documentclass[12pt,twocolumn]{article}
+\usepackage{graphicx}
+\usepackage{float}
+%\usepackage{wrapfig}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9.9in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
+\setlength{\topmargin}{-2.5 cm}
+\setlength{\parskip}{0.7\baselineskip} % space between paragraphs
+\setlength{\parindent}{0 cm} % increase this if you like paragraphs to be indented
+\usepackage{hyperref}
+\usepackage{xcolor}
+\counterwithout{figure}{section}
+
+\pagestyle{empty}
+
+\newcommand{\e}{\mathrm{e}}
+
+\begin{document}
+\vspace{-2cm}
+\title{\bf{The Photoelectric Effect and Wave Particle Duality of Light}}
+\author{Adam Omarali (1010132866), Eric Kim (1010043089)}
+\date{October 15 2024 \linebreak 
+PHY293}
+\maketitle
+
+\section{Introduction}
+The photoelectric effect describes the phenomenon where electrons are emitted from a material when light above some threshold frequency ($f_o$) is shined.
+The frequency of light ($f$) is proportional to the energy of the photons ($E$) given by:
+\begin{equation}
+    E = hf
+    \label{eq:energy}
+\end{equation}
+
+where $h$ is Planck's constant. 
+
+To measure the energy of the emitted electrons, Lenard's circuit is used to measure the voltage required to stop electrons from moving from a cathode to an anode.
+Using different wavelengths of light, the stopping voltage ($V_{stop}$) can be measured to determine the energy of the electrons emitted. The amount of energy needed to move
+an electron from the cathode to the anode is given by the work function ($E_o$), which is characteristic of the metal used for the anode and cathode.
+
+The kinetic energy of the electrons is given by:
+\begin{equation}
+    E_k = E - E_o
+    \label{eq:kinetic}
+\end{equation}
+
+Combing equations \ref{eq:energy} and \ref{eq:kinetic}, we can determine the stopping voltage as:
+\begin{equation}
+    V_{stop} = \frac{h}{e}f - \frac{E_o}{e} = \frac{h}{e}(f - f_o)
+    \label{eq:stopping}
+\end{equation}
+
+where $e$ is the charge of an electron.
+
+By using multiple LEDs of varying wavelengths and fitting equation \ref{eq:stopping} to the data, we find $E_o = (1.60 \pm 0.13)*10^{-19} J$ and
+$f_o = (3.38 \pm 0.33)*10^{14}Hz$. This is confirmed by shining an IR LED on the phototube, where no electrons are emitted because its frequency is below $f_o$.
+
+From the fit $h = (4.75\pm0.23)*10^{-34} Js$ is also determined, but found to be outside the accepted value due to unaccounted experimental error.
+
+The quantized behaviour of light is confired by measuring the stopping voltage and photocurrent as a function of intensity. The stopping voltage is found to be independent of intensity, while the photocurrent is linearly proportional to intensity.
+
+Finally, the wave-particle duality of light is confirmed by measuring the transient photocurrent as a function of time. The delay between the incident light and the photocurrent response is found to be much smaller ($t_{exp} = 2.2 \pm 0.2 \mu s$) than the theorectical value of $t_{th} = 0.30 \pm 0.2 ms$. The theorectical value is found by:
+\begin{equation}
+    t_{exp} = \frac{E_o}{P_{LED}\frac{A_e}{A_{PC}}}
+    \label{eq:delay}
+\end{equation}
+
+where $P_{LED} = 60 mW$ is the power of the LED, $A_e = 2.82 \pm 10^{-18}m^2$ is the area of an electron, and $A_{PC} = 3.23{cm}^2$ is the area of the phototube.
+
+\section{Materials and Methods}
+
+The materials used in this lab are as follows:
+\begin{itemize}
+    \item Two multimeters to measure voltage (photocurrent and $V_stop$)
+    \item An Oscilloscope to generate waves and display electronic signals
+    \item 8 LEDs with fixed frequencies
+    \item An adjustable LED that shines light at different intensities 
+    \item An oscillating LED controlled by the oscilloscope
+    \item A power supply box to power the LEDs
+    \item A phototube which contains a cathode which releases electrons when struck by photons from the LEDs
+    \item A control box contains a bnc-connector for the phototube, a potentiometer, and ports for the multimeters
+\end{itemize}
+
+
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.5 \textwidth]{img/apparatus.png}
+\label{fig:apparatus}
+\caption{The apparatus used for part 1, 2 and 3 of the experiment.}
+\end{centering}
+\end{figure}
+
+\subsection*{Part 1}
+The experiment was set up by first inserting the LED into the power supply to turn it on. 
+Then the phototube and the LED were aligned (distance of 5 ± 1mm) such that the diode would project light into the phototube window. 
+Subsequently, two multimeters were set up as voltmeters to measure the stopping voltage (measured through the phototube) of the 8 wavelengths 
+available by adjusting the photocurrent to zero using the built-in potentiometer. This setup is displayed in Figure \ref{fig:Part1_Setup}.
+The photocurrent was adjusted until the hundredths place voltage (mV) was zero and the thousands place was less than 5 because the potentiometer does not provide enough precision to reach 0mV.
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.5 \textwidth]{img/part1_setup.png}
+\label{fig:Part1_Setup}
+\caption{The setup for Part 1 of the experiment to capture $V_{stop}$.}
+\end{centering}
+\end{figure}
+
+\subsection*{Part 2}
+The setup remained consistent with exercise 1, but a variable-intensity LED was installed to measure the stopping voltage and photocurrent as a function of intensity.
+The intensity was adjusted by turning the knob on the LED. The stopping voltage and photocurrent was measured for 4 intensities.
+Photocurrent was converted to current from a measured voltage across a 100$k\Omega$ resistor.
+
+\subsection*{Part 3}
+The phototube was connected to Ch1 of the oscilloscope, and the wave generator was connected to the oscillator-driven LED and Ch2 of the oscilloscope. 
+The function generator was adjusted to output a square wave with a frequency of 2kHz. 
+The viewing settings were adjusted to get 4 periods of full oscillations, and the average function was used to get a clearer image of the data generated (32 Averages used).
+The amplitude of the square wave was maximized to reduce noise in the photocurrent signal.
+
+Using the two graphs generated, we measured the transient photocurrent as a function of time as well as the estimated delay between the incident light and the photocurrent response by observing the difference in wave function and photocurrent peaks.
+
+\section{Data \& Analysis}
+\subsection*{Part 1}
+Following Part 1, the stopping voltage for each LED was measured and recorded:
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.5 \textwidth]{img/part1a.png}
+\label{fig:p1}
+\caption{A graph of frequency for different LEDs and their corresponding stopping voltage.}
+\end{centering}
+\end{figure}
+
+Fitting Equation \ref{eq:stopping} to Figure \ref{fig:p1} gives the following parameters: $m = \frac{h}{e} = (2.96 \pm 0.15)*10^{-15} Vs$ and $b = \frac{Eo}{e} = (-1.00 \pm 0.08) \frac{V}{C}$. 
+The uncertainty in the slope and intercept parameters are calculated using the Scipy curve\_fit function and defined as one standard deviation of the best-fit parameters.
+
+The best-fit line has an $R^2 = 0.987$, meaning 98.7\% of the variability in the stopping voltage can be explained by the best-fit line where the explanatory variable is frequency. 
+The reduced chi-squared value is $\chi^2=0.038$, with two degrees of freedom. This low value shows the minimal variation between the expected value and the fit value. These parameters confirm the fit is good.
+
+It's also important to note the LED within the infrared range, did not create a photocurrent and therefore no value was recorded.
+
+\subsection*{Part 2}
+Following Part 2, the stopping voltage and photocurrent as a function of intensity is measured:
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.5 \textwidth]{img/V_stop and Photocurrent Given Intensity.png}
+\label{fig:p2}
+\caption{A graph of Stopping Voltage (v) and Photocurrent ($\mu$A) plotted against the intensity of the variable intensity LED. }
+\end{centering}
+\end{figure}
+
+The best fit line for stopping voltage had an $R^2$ of 0.993, and the line for photocurrent had an $R^2$ of 0.965, meaning both lines are a very good fit for the given data.
+
+\subsection*{Part 3}
+Following Part 3, the transient photocurrent as a function of time is measured:
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.5 \textwidth]{img/part3.png}
+\label{fig:p3}
+\caption{The transient response of the photocurrent is shown as the LED is turned on by the wave function generator from its mimimum to maximum value. These values are measured using the cursor.}
+\end{centering}
+\end{figure}
+
+In addition the time delay is recorded by zooming into the waveforms on the oscilloscope:
+\subsection*{Part 3}
+Following Part 3, the transient photocurrent as a function of time is measured:
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.5 \textwidth]{img/IMG_4503.JPG}
+\label{fig:p3b}
+\caption{The peaks of the square wave form and the rise of photocurrent are displayed}
+\end{centering}
+\end{figure}
+
+\section{Discussion}
+\subsection*{Uncertainties}
+The uncertainty of the frequency is given by the range of wavelengths within which the LEDs are designed. Frequency is calculated from the following equation:
+\begin{equation}
+    f = \frac{c}{\lambda}
+\end{equation}
+where $c$ is the speed of light and $\lambda$ is the wavelength.
+The bandwidth (spread of light wavelengths emitted by the LED around the central wavelength
+with half the intensity of the peak light) for each given LED is provided[1]. Half the bandwidth gives the error in wavelength. Propagating the error gives the error for the frequency:
+\begin{equation}
+    \frac{\Delta f}{\Delta \lambda} = -\frac{c}{\lambda^2}  
+\end{equation}
+The uncertainty in stopping voltage (Part 1 and 2) comes from three sources: voltage reading fluctuations, the multimeter's uncertainty, and the uncertainty in frequency since the variables are linearly correlated. We found the voltage stop reading to fluctuate by ± 0.005V. The multimeter's uncertainty is given by the 34461A spec sheet [2], with a mean uncertainty of $\pm$ 0.00014 V. 
+These two uncertainties are summed. There is also uncertainty since the photocurrent could not be brought to exactly 0mV, but this error can not be numerically represented.
+The voltage reading fluctions and multimeter uncertainties are found to be similar for the photocurrent.
+
+\subsection{Determining $E_o$, $h$, $f_o$}
+From Equation a, we find the slope of the best-fit line is equal to $h/e$. To find Planck's Constant, we can multiply $e$ by the slope giving an $h = (4.75 \pm 0.23)*10^{-34} Js$. The agreed-upon value is $h = 6.62*10^{-34}Js$. This gives a 23\% error in the experimentally determined value, and the uncertainty in h does not capture the true value. The uncertainty in h is given by propogating the slope's uncertainty ($\Delta h = \frac{e}{m} \Delta m$).
+
+Therefore, h has been underestimated and the slope value should be greater than calculated. The slope increases if the minimal bound of frequency given by its uncertainty is taken since the frequency uncertainty increases as frequency increases. This could mean the true wavelength values are near the lower bound ($\lambda - \Delta \lambda$). The best-fit line near points at their lower bound is given by $m_2 = (3.39\pm0.19*10^{-15}) Vs$, and $h_2 = (5.43\pm0.30)*10^{-34} Js$. This is closer to the accepted value but still does not capture the true value within its uncertainty.
+
+Additionally, photons emitted from the LED may reflect off the phototube. This reduces the amount of energy needed to stop electrons from moving and creating a photocurrent, reducing Vstop. Different amounts of reflection at different collected points could underestimate the slope value. These two sources of error prevent us from accepting the experimental value of h.
+
+We can find Eo since it is related to the y-intercept of Figure \ref{fig:p1} also through $e$. We find $E_o =(1.60 \pm 0.13)*10^{-19} J$. 
+Similarly, we can rearrange the frequency equivalent of \ref{eq:stopping} to find $f_o=(3.38 \pm 0.33)*10^{14}Hz$, where the error is propogated from the best-fit parameter errors.
+Revisiting the frequency of the infrared light $f_{IR} = (3.20\pm0.02) * 1014 Hz$. Since $f_{IR} < f_o$, it makes sense why there is no noticeable stopping voltage. Since frequency is proportional to energy, the IR light doesn't have enough energy to excite the photoelectrons. 
+
+\subsection{Intensity Dependence}
+During the experiment conducted by Lenard, he came to the conclusion that current is proportional to the intensity of the irradiating light, but the stopping voltage is independent of intensity, rather it is dependent on the frequency of the source. 
+Since $V_{stop}$ is proportional to $E_k$ and therefore frequency, an unchanging stopping voltage implies that the frequency is constant and so is the energy. 
+As intensity is proportional to the number of photons hitting the cathode, an increase in intensity is an increase total energy, but not the invidivual energy of an photon. 
+Therefore, it is reasonable that intensity has no affect on the stopping voltage. Photocurrent on the other hand increases proportional to intensity because there are more high energy photons being emitted.
+
+Since only past a certain energy will a singular photon have enough energy to excite an electron, we find light to be quantized.
+
+\subsection{Wave Particle Duality}
+From equation \ref{eq:delay} the theorectical time delay is found to be $t_{th} = 3.0 \pm 0.2 ms$, propogating error from $E_o$. Looking at Figure \ref{fig:p3b} and comparing the peak of the square wave to when photocurrent begins to rise, the delay is found to be $t_{exp} = 2.2 \pm 0.2\mu s$, where the uncertainty comes from the range of values where the square function rises.
+This drastic magnitude difference in time delay is explain by Einstein's wave particle duality. As frequency increases, the wave peaks become closer and closer, and the wave function becomes more particle-like. 
+This is why the delay is so small, and rather than transferring energy over time through a wave, it is nearly instantaneously transferred as a particle.
+
+
+\section{References}
+[1] Photoelectric Effect Manual \url{https://www.physics.utoronto.ca/~phy224_324/LabManuals/PhotoelectricEffect.pdf#page=6.66}
+
+[2] Digital Multimeters Specs \url{https://www.keysight.com/ca/en/assets/7018-03846/data-sheets/5991-1983.pdf}
+
+\end{document}
