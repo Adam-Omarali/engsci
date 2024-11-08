@@ -67,7 +67,7 @@ end
 always_comb
 begin
 	A_shift = A << 1;
-	A_shift = {A_shift[3:1], dividend_out[3]};
+	A_shift = {A_shift[4:1], dividend_out[3]};
 	div_shift = dividend_out << 1;
 end
 
@@ -85,8 +85,8 @@ begin
 	end
 end
 
-assign Remainder = A;
-assign Quotient = dividend_out;
+assign Remainder = ResultValid ? A : 5'bx;
+assign Quotient = ResultValid ? dividend_out : 5'bx;
 
 
 endmodule
