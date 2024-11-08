@@ -47,7 +47,7 @@ end
 endmodule
 
 module datapath(input logic Clock, Reset, Go, ResultValid, logic [4:0] Divisor, logic [3:0] Dividend,
-		output logic [3:0] Quotient, dividend_out, div_in, div_shift, logic [4:0] Remainder, A, A_out, A_shift, A_temp);
+		output logic [3:0] Quotient, dividend_out, div_in, div_shift, Remainder, A, A_out, A_shift, A_temp);
 
 //Dividend FF
 always_ff @(posedge Clock)
@@ -67,7 +67,7 @@ end
 always_comb
 begin
 	A_shift = A << 1;
-	A_shift = {A_shift[4:1], dividend_out[3]};
+	A_shift = {A_shift[3:1], dividend_out[3]};
 	div_shift = dividend_out << 1;
 end
 
@@ -85,20 +85,18 @@ begin
 	end
 end
 
-assign Remainder = ResultValid ? A : 5'bx;
-assign Quotient = ResultValid ? dividend_out : 5'bx;
+assign Remainder = A;
+assign Quotient = dividend_out;
 
 
 endmodule
 
 
 module part3(input logic Clock, Reset, Go, logic [4:0] Divisor, logic [3:0] Dividend, 
-	     output logic [3:0] Quotient, logic [4:0] Remainder, logic ResultValid);
+	     output logic [3:0] Quotient, Remainder, logic ResultValid);
 	
 	logic run;
-	logic [4:0] A;
-	logic [3:0] dividend_out, div_in, div_shift;
-	logic [4:0] A_out, A_shift, A_temp;
+	logic [3:0] dividend_out, div_in, div_shift, A, A_out, A_shift, A_temp;
 	
 
 	control_path u1(.Clock(Clock), .Reset(Reset), .Go(Go), .run(run), .ResultValid(ResultValid));
