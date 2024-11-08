@@ -46,7 +46,7 @@ end
 
 endmodule
 
-module datapath(input logic Clock, Reset, Go, ResultValid, logic [4:0] Divisor, logic [3:0] Dividend,
+module datapath(input logic Clock, Reset, Go, ResultValid, logic [3:0] Divisor, Dividend,
 		output logic [3:0] Quotient, dividend_out, div_in, div_shift, Remainder, A, A_out, A_shift, A_temp);
 
 //Dividend FF
@@ -92,7 +92,7 @@ assign Quotient = dividend_out;
 endmodule
 
 
-module part3(input logic Clock, Reset, Go, logic [4:0] Divisor, logic [3:0] Dividend, 
+module part3(input logic Clock, Reset, Go, logic [3:0] Divisor, Dividend, 
 	     output logic [3:0] Quotient, Remainder, logic ResultValid);
 	
 	logic run;
