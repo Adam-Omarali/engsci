@@ -1,0 +1,176 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{float}
+%\usepackage{wrapfig}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9.9in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
+\setlength{\topmargin}{-2.5 cm}
+\setlength{\parskip}{0.7\baselineskip} % space between paragraphs
+\setlength{\parindent}{0 cm} % increase this if you like paragraphs to be indented
+\usepackage{hyperref}
+\usepackage{xcolor}
+\counterwithout{figure}{section}
+
+\pagestyle{empty}
+
+\newcommand{\e}{\mathrm{e}}
+
+\begin{document}
+\vspace{-5cm}
+\title{\bf{Behaviour of Dynamic Fluids in Microfluidics}}
+\author{Adam Omarali (1010132866)}
+% \date{November 25 2024 \linebreak 
+% PHY293}
+\maketitle
+
+\section{Introduction}
+Understanding the behaviour of fluids at the microlevel is crucial for a variety of applications including drug delivery, lab-on-a-chip devices and blood flow. 
+This report specifically explores the velocity profile of a fluid in a straight channel, and the effect of height, channel width, and bends on velocity.
+The difference in velocity between two points in space can be understood through two key equations. The first is the conservation of mass for two different cross-sectional areas $A_1$ and $A_2$ with velocities $u_1$ and $u_2$ respectively.
+\begin{equation}
+    A_1u_1 = A_2u_2
+    \label{eq:mass}
+\end{equation}
+This equation assumes the fluid is incompressible (constant density).
+Secondly, Bernoulli's equation can be used to relate the speed of a fluid to a change in height or pressure. This assumes the fluid is incompressible, inviscid and the flow is steady.
+\begin{equation}
+    P_1 + \frac{1}{2}\rho u_1^2 + \rho gh_1 = P_2 + \frac{1}{2}\rho u_2^2 + \rho gh_2
+    \label{eq:bernoulli}
+\end{equation}
+Fluid is pumped through a variable height syringe into a microfluidic device with varying channels to investigate these relationships. A microscope is used to capture image of the flow and display them on LAS software [1].
+
+\section{Method \& Results}
+The procedure from the laboratory manual was followed [2]. To collect velocity data, python's opencv [3] was used to capture the length of the streaks.
+Streaks that were the least blurry were selected for measurement.
+
+First, flow in a straight channel is considered. Velocities were collected over various heights in the channel ($\geq$ 5 streaks for each the top, centre and bottom). Figure \ref{fig:straight_channel} shows a plot of the velocities as a function of height from the bottom of the channel and how measurements were taken.
+
+\begin{figure}[H]
+    \centering
+    \subfloat[Plot]{{\includegraphics[width=0.52\textwidth]{img/velocity_profile.png}}}
+    \qquad
+    \subfloat[Flow in a Straight Channel]{{\includegraphics[width=0.42\textwidth]{img/v_profile_fluid.png}}}
+    \caption{(a) shows velocity as a function of height from the bottom of the channel for a straight channel. A quadratic fit is applied producing a $R^2$ value of 0.356 and $\chi_v^2=6.315$.
+    Velocities are smaller near the walls (low and high Y coordinates) and more variable in the centre with some larger values. Error bars for the uncertainty in the Y coordinate are too small to be seen ($\pm 4.3 \mu m$).
+    (b) shows the data collection process for the velocities with green lines measuring the streaks in pixel length.}
+    \label{fig:straight_channel}
+\end{figure}
+
+The uncertainty in velocity is calculated by propagating the uncertainty in time and distance. The uncertainty in time is taken as 0.1ms, which is the precision of the camera exposure.
+The uncertainty in distance comes from the ambiguity of where a streak begins and ends. Multiple streaks are selected and the length of their blur is averaged to find the uncertainty in distance.
+The uncertainty in velocity is given as $$\Delta u = u \sqrt{(\frac{\Delta t}{t})^2 + (\frac{\Delta x}{x})^2}$$
+
+The uncertainty in the Y coordinate is taken as half the width of the streak. Again, multiple streaks are selected and their width is averaged to find the uncertainty in the Y coordinate.
+
+For a streak that's 65 pixels long, the distance is given by multiplying the ratio of the 200 $\mu m$ scale bar to the pixel length of the scale bar (461 pixels). Given an exposure of 50ms and mean streak uncertainty of 12 pixels, the velocity is calculated as follows:
+$$x = 65 \times \frac{200}{461} = 28 \mu m$$
+$$u = \frac{x}{t} = \frac{28}{50.0} = 0.56\mu m/ms$$
+$$\Delta u = 0.56 \times \sqrt{(\frac{0.1}{65})^2 + (\frac{12}{65})^2} = 0.10\mu m/ms$$
+
+Next, the effect of height on the velocity is also considered by taking the mean of the 5 longest streaks (found near the centre of the channel) for heights: 10.0 $\pm$ 0.5cm, 13.0 $\pm$ 0.5cm, 16.0 $\pm$ 0.5cm and 20.0 $\pm$ 0.5cm.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/height.png}
+    \caption{The mean of the 5 longest streaks for a set of heights. A power fit is given by $u = (1.26\times10^{-6} \pm 2.20\times10^{-6})h^{1.13 \pm 0.14}$, with uncertainties calculated as one standard deviation of each parameter. The $R^2$ value is 0.97 and $\chi_v^2=0.46$. The uncertainty in height is $\pm 0.5 \times 10^{4} \mu m$ (reading error) and the velocity uncertainty is calculated in the same way as before.}
+    \label{fig:height_vs_velocity}
+\end{figure}
+
+Moving beyond straight channels, the impact on cross-sectional area is explored through two converging/diverging channels, with a gradual change and sharp change.
+
+\begin{figure}[H]
+    \centering
+    \subfloat[Gradual Transition]{{\includegraphics[width=0.40\textwidth]{img/venturi115.9ms.jpeg}}}
+    \qquad
+    \subfloat[Sharp Transition]{{\includegraphics[width=0.40\textwidth]{img/converge115.9ms2tif.jpeg}}}
+    \caption{The gradual transition (a) and sharp transition (b) are shown.}
+    \label{fig:variable_width}
+\end{figure}
+
+\begin{table}[H]
+    \begin{tabular}{|l|l|l|}
+    \hline
+     & Velocity Wide ($\mu m/ms$) & Velocity Narrow ($\mu m/ms$) \\ \hline
+    Gradual & 0.17 $\pm$ 0.03 &  0.32 $\pm$ 0.03  \\ \hline
+    Narrow & 0.37 $\pm$ 0.03 & 0.085 $\pm$  0.035 \\ \hline
+    \end{tabular}
+    \centering
+    \label{Tab:part2_b}
+    \caption{The velocities of the two converging/diverging channels are taken as the average of ~5 streaks. Uncertainty in velocity is calculated the same as before.}
+\end{table}
+
+Finally, the effect of a bend in the channel is considered.
+
+\begin{figure}[H]
+    \centering
+    \subfloat[L Bend]{{\includegraphics[width=0.40\textwidth]{img/l-bend.jpeg}}}
+    \qquad
+    \subfloat[U Bend]{{\includegraphics[width=0.30\textwidth]{img/u-bend.jpeg}}}
+    \caption{The L bend (a) and U bend (b) are shown with their pathlines.}
+    \label{fig:bends}
+\end{figure}
+
+\begin{table}[H]
+    \begin{tabular}{|l|l|}
+    \hline
+    Velocity Top ($\mu m/ms$) & Velocity Bottom ($\mu m/ms$) \\ \hline
+    0.30 $\pm$ 0.06 &  0.25 $\pm$ 0.06  \\ \hline
+    Velocity Left ($\mu m/ms$) & Velocity Right ($\mu m/ms$) \\ \hline
+    0.34 $\pm$ 0.06 & 0.35 $\pm$ 0.06 \\ \hline
+    \end{tabular}
+    \centering
+    \label{Tab:part2_c}
+    \caption{The velocities top and bottom apply to the L bend while the velocities left and right apply to the u bend. All velocities are taken as the average of 10 streaks. The uncertainty is velocity is calculated the same as before.}
+\end{table}
+
+\section{Discussion}
+\subsection*{Straight Channel Flow}
+For the straight channel, the maximum velocity is expected to be in the centre. The walls should obey the no-slip condition and therefore have a velocity of 0. The flow of particles beneath the walls will be resisted by the zero velocity particles. Finally, the velocity gradient should be greatest near the walls. From Figure \ref{fig:straight_channel} (b), the velocity is generally smaller near the walls, and more variable and larger in the centre. 
+The velocities are more consistent around the centre, implying a minimal gradient. For all these conditions to hold true, the velocity profile should be described by a parabola. 
+
+The fit in Figure \ref{fig:straight_channel} (a) is not perfect, with a $R^2$ value of 0.356 and $\chi_v^2=6.315$. The $R^2$ value is low, indicating that the data does not fit the model well. The $\chi_v^2$ value is high, also indicating that the data is not consistent with the model. The data still has a parabolic shape, but there is a wide spread of velocities near the centre that result in the low fit.
+A major reason for this is unreliability in the streaks. Faster moving streaks are harder to capture and identify (appear as blurry streaks), leading to a bias in the data. In addition, the walls have some bumps and imperfections that prevent particles from moving in a completely straight line. This affects the shear stress and therefore the velocity profile.
+
+To manipulate the velocity, the viscosity can be reduced to increase speed. The channel widths can change where for the same incompressible fluid a wider channel will have a lower velocity. The flow rate can also be changed by changing the pressure difference across the channel. We affected the flow rate by changing the height of the syringe as plotted in Figure \ref{fig:height_vs_velocity}. 
+Given the ideal scenario outlined in the manual, we can find the relationship between the speed at an outlet ($U_3$) and the height of the syringe ($z_1$) using bernouilli's equation \ref{eq:bernoulli}. 
+$U_3 = \sqrt{2gz_1}$. The relationship between speed at the outlet and the speed ($U_2$) of a different width channel is found using conservation of mass \ref{eq:mass} to be $U_2 = \frac{A_3}{A_2}U_3 = \frac{A_3}{A_2} \sqrt{2g} \sqrt{z_1}$.
+
+In Figure \ref{fig:height_vs_velocity}, the power fit proportionality constant is much smaller than the minimum expected value of $\sqrt{2g}$ and the power is greater than 0.5. 
+This difference stems again from the uncertainty in capturing the longest streaks. In particular, one streak was much larger for $h = 20cm$, while longer streaks were likely missed in the other heights, resulting in a more linear fit rather than one which tapers off. 
+Theoretically, it was also assumed the velocity of the syringe is 0, and the flow experiences no resistance, which is not true due to inertial forces and bumps in the geometry. Additionaly, the flow is not steady and fully developed. 
+
+\subsection*{Variable Width Channels}
+The flow in the gradual transition is generally laminar while the flow in the sharp transition is more turbulent. The gradual transition has less flow separation from the walls, which prevents pathlines from changing abruptly. On the other hand, the sharp transition has separation from the walls causing turbulence and greater velocity gradients by the walls as seen by longer streaks at the seperation point in Figure \ref{fig:variable_width} (b).
+Practically, flow transitions are common because flow is often directed through channels with varying cross-sectional areas. Accurately predicting the velocities and reducing energy loss is aided by less turbulent flow, which supports the use of gradual transitions. 
+
+For the converging/diverging channels, the velocity is expected to increase in the narrow channel and decrease in the wide channel from equation \ref{eq:mass}. This is because mass is conserved and the cross-sectional area is changing. 
+For two cross-sectional areas, the theoretical difference in velocity is given by $u_1 = \frac{A_2}{A_1}u_2$. For the gradual transition the narrow velocity ($u_n$) should be $3.17 \pm 1.70$ the wide velocity ($u_w$), assuming constant channel depth. The uncertainty comes from the ambiguity of where the top and bottom of the channel begin ($\pm 30 pixels$ for both the top and bottom). This uncertainty is propagated by $\Delta (\frac{A_2}{A_1}) = \frac{A_2}{A_1} \sqrt{(\frac{1}{A_1} \Delta {A_2})^2 + (\frac{A_2}{A_1^2} \Delta {A_1})^2}$
+A similar process is followed for the sharp transition yielding $u_n = (4.21 \pm 2.21) u_w$. The sharp transition true narrow velocity (from Table 1) falls within theoretical uncertainty while the gradual transition is slightly smaller than predicted.
+In addition to the previously mentioned uncertainty in the streak length, for the gradual transition, an average cross-sectional area is used to describe the wider channel. One would expect the experimental sharp transition to also be smaller due to energy losses from more turbulent flow.
+
+\subsection*{Bends}
+In theory for perfectly developed flows, the velocity at the top of the L bend should be the same as the bottom (neglecting minimal changes in gravitational energy) and the velocity at the left of the U bend should be the same as the right. This is because the flow is incompressible, the channel widths remain constant and mass is conserved.
+From Table 3, the left and right velocities for the U bend are the same within uncertainty. The top and bottom velocities for the L bend fall outside their uncertainties. This can be explained by observing the pathlines.
+
+The pathlines in Figure \ref{fig:bends} show that L bend has more rapid changes in direction than the U bend. This causes the flow to have more separation, experience turbulence and lose additional energy by hitting the walls (indicated by the nearly 90 degree angle of the pathlines). These sources of energy loss result in a smaller velocity at the bottom of the L bend. The U bend has a more gradual change in direction, which reduces energy loss and keeps the flow mostly laminar.
+
+\section {Conclusion}
+The velocity of a fluid in a straight channel, the effect of height on velocity, the impact of channel width on velocity, and the effect of bends on velocity were investigated. 
+
+The velocity profile in a straight channel was found to be slightly parabolic, with the highest velocities in the centre. The fit was not perfect due to the unreliability of capturing faster streaks and imperfections in the channel. 
+The velocity was found to increase with height, but the relationship was closer to linear than the expected square root relationship. Inconsistencies in capturing the streak lines and the assumption of no resistance in the flow were likely causes of this discrepancy.
+
+The velocities in the converging/diverging channels were found to be mostly consistent with the theoretical predictions given uncertainties. Gradual transitions are preferred due to less turbulent flow and energy loss.
+
+The L bend had a larger difference in velocities due to more rapid changes in direction and energy loss while the U bend aligns with the theory (no change in velocity) because the flow is more laminar. Less sharp bends are preferred.
+
+To better compare theory with the experiment, more reliable methods of capturing streaks should be used so faster particles can be recognized and imperfections in the channel should be corrected to allow for fully developed flow.
+\section {References}
+[1] LAS \url{https://www.leica-microsystems.com/products/microscope-software/p/leica-las-x-ls/} \newline
+[2] AER210 Flow Visualization Lab Manual \url{https://q.utoronto.ca/courses/363140/files/33286409?module_item_id=6119529} \newline
+[3] OpenCV \url{https://opencv.org/}
+
+\end{document}

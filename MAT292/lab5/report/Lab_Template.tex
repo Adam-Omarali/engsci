@@ -1,0 +1,97 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{float}
+%\usepackage{wrapfig}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9.9in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
+\setlength{\topmargin}{-2.5 cm}
+\setlength{\parskip}{0.7\baselineskip} % space between paragraphs
+\setlength{\parindent}{0 cm} % increase this if you like paragraphs to be indented
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{natbib}  % For bibliography styles
+
+\pagestyle{empty}
+
+\newcommand{\e}{\mathrm{e}}
+
+\begin{document}
+
+\title{\bf{ODE Lab 5}}
+\author{Adam Omarali (1010132866)}
+\maketitle
+
+\section*{Q1}
+\textbf{a)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/q1.png}
+\end{figure}
+
+\textbf{b)}
+All solutions (100\%) decay with oscillation.
+
+\textbf{c)}
+The solution to this ODE is $y(t) = e^{-\frac{1}{2}t} \left( c_1 \cos 2t + c_2 \sin 2t \right)$.
+This makes sense since the $e^{-\frac{1}{2}t}$ component decays as $t \rightarrow \infty$ and the $\cos 2t$ and $\sin 2t$ components oscillate.
+
+\section{Q2}
+\textbf{a)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/q2.png}
+\end{figure}
+
+\textbf{b)}
+All solution (100\%) grow.
+
+\textbf{c)}
+The solution to this ODE is $y(t) = c_1e^{(\frac{-\sqrt{3}}{2} + 1)t} + c_2e^{(\frac{-\sqrt{3}}{2} - 1)t}$. This makes sense since as $t \rightarrow \infty$, $c_2e^{(\frac{-\sqrt{3}}{2} - 1)t} \rightarrow 0$ and $c_1e^{(\frac{-\sqrt{3}}{2} + 1)t} \rightarrow \pm \infty$ depending on the sign of $c_1$.
+
+
+\section*{Q3}
+\textbf{a)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/q3.png}
+\end{figure}
+
+\textbf{b)}
+All solutions (100\%) decay.
+
+\textbf{c)}
+The solution to this ODE is $y(t) = c_1e^{\frac{-\sqrt{3}+\sqrt{2}}{2}t} + c_2e^{\frac{-\sqrt{3}-\sqrt{2}}{2}t}$. This makes sense since both terms approach 0 as $t \rightarrow \infty$.
+
+\section*{Q4}
+\textbf{a)}
+Solving for the roots of characteristic equation gives the general solution $y(t) = c_1e^{-t}cos 2t + c_2e^{-t}sin 2t + c_3cos t + c_4sin t$.
+
+\textbf{b)}
+Both of the exponential terms will decay to zero as $t \rightarrow \infty$. The $\cos 2t$ and $\sin 2t$ terms will oscillate indefinitely. Therefore, the solution decays while oscillationing, but never approaches 0.
+Therefore, no solutions (0\%) decay, grow, decay with oscillation or grow with oscillation. Nearly all solutions (100\%) oscillate indefinitely aside from initial conditions where $c_3 = c_4 = 0$.
+
+\section*{Q5}
+(a) $0 < r_1 < r_2$. The solution will grow.
+
+(b) $r_1 < 0 < r_2$. The solution will grow.
+
+(c) $r_1 < r_2 < 0$. The solution will decay.
+
+(d)$ r_1 = \alpha + \beta i, \  r_2 = \alpha - \beta i \ |\  \alpha < 0$. The solution will decay with oscillation.
+
+(e) $r_1 = \alpha + \beta i, \  r_2 = \alpha - \beta i \ |\  \alpha = 0$. The solution will oscillate indefinitely.
+
+(f) $r_1 = \alpha + \beta i, \  r_2 = \alpha - \beta i \ |\  \alpha > 0$. The solution will grow with oscillation.
+
+\section*{Q7}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/q7.png}
+\end{figure}
+
+The solution osciallates accurately but begins to diverge from the iode
+solution more and more as t increases. This could be improved with a smaller step size (currently h = 0.1).
+\end{document}

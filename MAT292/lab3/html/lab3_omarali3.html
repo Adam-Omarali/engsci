@@ -1,0 +1,787 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>ODE Lab: Creating your own ODE solver in MATLAB</title>
+<meta name="generator" content="MATLAB 23.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2024-10-31">
+<meta name="DC.source" content="lab3_omarali3.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h1>ODE Lab: Creating your own ODE solver in MATLAB</h1>
+<!--introduction-->
+<p>In this lab, you will write your own ODE solver for the Improved Euler method (also known as the Heun method), and compare its results to those of <tt>ode45</tt>.</p>
+<p>You will also learn how to write a function in a separate m-file and execute it.</p>
+<p>Opening the m-file lab3.m in the MATLAB editor, step through each part using cell mode to see the results. Compare the output with the PDF, which was generated from this m-file.</p>
+<p>There are six (6) exercises in this lab that are to be handed in on the due date. Write your solutions in the template, including appropriate descriptions in each step. Save the .m files and submit them online on Quercus.</p>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Student Information</a>
+</li>
+<li>
+<a href="#2">Creating new functions using m-files.</a>
+</li>
+<li>
+<a href="#5">Exercise 1</a>
+</li>
+<li>
+<a href="#6">Exercise 2</a>
+</li>
+<li>
+<a href="#10">Exercise 3</a>
+</li>
+<li>
+<a href="#15">Adaptive Step Size</a>
+</li>
+<li>
+<a href="#16">Exercise 4</a>
+</li>
+<li>
+<a href="#17">Exercise 5</a>
+</li>
+<li>
+<a href="#20">Exercise 6</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Student Information</h2>
+<p>Student Name: Adam Omarali</p>
+<p>Student Number: 1010132866</p>
+<h2 id="2">Creating new functions using m-files.</h2>
+<p>Create a new function in a separate m-file:</p>
+<p>Specifics: Create a text file with the file name f.m with the following lines of code (text):</p>
+<pre>function y = f(a,b,c)
+y = a+b+c;</pre>
+<p>Now MATLAB can call the new function f (which simply accepts 3 numbers and adds them together). To see how this works, type the following in the matlab command window: sum = f(1,2,3)</p>
+<h2 id="5">Exercise 1</h2>
+<p>Objective: Write your own ODE solver (using the Heun/Improved Euler Method).</p>
+<p>Details: This m-file should be a function which accepts as variables (t0,tN,y0,h), where t0 and tN are the start and end points of the interval on which to solve the ODE, y0 is the initial condition of the ODE, and h is the stepsize. You may also want to pass the function into the ODE the way <tt>ode45</tt> does (check lab 2).</p>
+<p>Note: you will need to use a loop to do this exercise. You will also need to recall the Heun/Improved Euler algorithm learned in lectures.</p>
+<h2 id="6">Exercise 2</h2>
+<p>Objective: Compare Heun with <tt>ode45</tt>.</p>
+<p>Specifics: For the following initial-value problems (from lab 2, exercises 1, 4-6), approximate the solutions with your function from exercise 1 (Improved Euler Method). Plot the graphs of your Improved Euler Approximation with the <tt>ode45</tt> approximation.</p>
+<p>(a) <tt>y' = y tan t + sin t, y(0) = -1/2</tt> from <tt>t = 0</tt> to <tt>t = pi</tt>
+</p>
+<p>(b) <tt>y' = 1 / y^2 , y(1) = 1</tt> from <tt>t=1</tt> to <tt>t=10</tt>
+</p>
+<p>(c) <tt>y' = 1 - t y / 2, y(0) = -1</tt> from <tt>t=0</tt> to <tt>t=10</tt>
+</p>
+<p>(d) <tt>y' = y^3 - t^2, y(0) = 1</tt> from <tt>t=0</tt> to <tt>t=1</tt>
+</p>
+<p>Comment on any major differences, or the lack thereof. You do not need to reproduce all the code here. Simply make note of any differences for each of the four IVPs.</p>
+<pre class="codeinput">h = 0.05;
+i = [0, pi];
+y0 = -0.5;
+tvals = linspace(i(1), i(2), floor((i(2) - i(1)) / h) + 1);
+f = @(t, y) y * tan(t) + sin(t);
+sol = heun(f, i(1), i(2), y0, h);
+solode = ode45(f, [i(1), i(2)], y0);
+
+plot(tvals, sol, solode.x, solode.y)
+legend(<span class="string">"Heun Method"</span>, <span class="string">"ode45"</span>, <span class="string">"Location"</span>, <span class="string">"southeast"</span>);
+title(<span class="string">"Q2: Part A"</span>);
+<span class="comment">%Not many differences. The Heun Method is sharp near the inflection point. The</span>
+<span class="comment">%ode45 solution is more pointy around the points where the derivative</span>
+<span class="comment">%approaches 0.</span>
+</pre>
+<pre class="codeinput">i = [1, 10];
+y0 = 1;
+tvals = linspace(i(1), i(2), floor((i(2) - i(1)) / h) + 1);
+f = @(t, y) 1 / y^2;
+sol = heun(f, i(1), i(2), y0, h);
+solode = ode45(f, [i(1), i(2)], y0);
+plot(tvals, sol, solode.x, solode.y)
+legend(<span class="string">"Heun Method"</span>, <span class="string">"ode45"</span>, <span class="string">"Location"</span>, <span class="string">"southeast"</span>);
+title(<span class="string">"Q2: Part B"</span>);
+</pre>
+<pre class="codeinput">i = [0, 10];
+y0 = -1;
+tvals = linspace(i(1), i(2), floor((i(2) - i(1)) / h) + 1);
+f = @(t, y) 1 - t*y / 2;
+sol = heun(f, i(1), i(2), y0, h);
+solode = ode45(f, [i(1), i(2)], y0);
+plot(tvals, sol, solode.x, solode.y)
+legend(<span class="string">"Heun Method"</span>, <span class="string">"ode45"</span>, <span class="string">"Location"</span>, <span class="string">"southeast"</span>);
+title(<span class="string">"Q2: Part C"</span>);
+<span class="comment">%The Heun Method is smoother near the maximum than the ode45.</span>
+</pre>
+<img vspace="5" hspace="5" src="lab3_omarali3_02.png" alt=""> <pre class="codeinput">i = [0, 1];
+y0 = 1;
+tvals = linspace(i(1), i(2), floor((i(2) - i(1)) / h) + 1);
+f = @(t, y) y^3 - t^2;
+sol = heun(f, i(1), i(2), y0, h);
+solode = ode45(f, [i(1), i(2)], y0);
+plot(tvals, sol, solode.x, solode.y)
+legend(<span class="string">"Heun Method"</span>, <span class="string">"ode45"</span>, <span class="string">"Location"</span>, <span class="string">"southeast"</span>);
+title(<span class="string">"Q2: Part D"</span>);
+<span class="comment">%The Heun method diverges very quickly.</span>
+<span class="comment">%ode45 seems to be limited by its ability to integrate.</span>
+</pre>
+<pre class="codeoutput">Warning: Failure at t=5.066046e-01.  Unable to meet integration tolerances
+without reducing the step size below the smallest value allowed (1.776357e-15)
+at time t. 
+</pre>
+<img vspace="5" hspace="5" src="lab3_omarali3_03.png" alt=""> <h2 id="10">Exercise 3</h2>
+<p>Objective: Use Euler's method and verify an estimate for the global error.</p>
+<p>Details:</p>
+<p>(a) Use Euler's method (you can use euler.m from iode) to solve the IVP</p>
+<p>
+<tt>y' = 2 t sqrt( 1 - y^2 ) , y(0) = 0</tt>
+</p>
+<p>from <tt>t=0</tt> to <tt>t=0.5</tt>.</p>
+<pre class="codeinput">f = @(t, y) 2 * t * sqrt(1-y^2);
+sol = euler(f, 0, linspace(0, 0.5, 50));
+</pre>
+<p>(b) Calculate the solution of the IVP and evaluate it at <tt>t=0.5</tt>.</p>
+<pre class="codeinput">exact = @(t) sin (t^2);
+fprintf(<span class="string">"y(0.5) = %g\n"</span>, exact(0.5));
+</pre>
+<pre class="codeoutput">y(0.5) = 0.247404
+</pre>
+<p>(c) Read the attached derivation of an estimate of the global error for Euler's method. Type out the resulting bound for En here in a comment. Define each variable.</p>
+<pre class="codeinput">
+<span class="comment">%En &lt;= ((1 + M) * delta t) / 2 * (e^(M * n * delta t) - 1)</span>
+<span class="comment">%En: Error of the nth term calculated by euler's method</span>
+<span class="comment">%M:the bound |f|, |d_tF|, |d_yF|</span>
+<span class="comment">%delta t: step size</span>
+<span class="comment">%n: the term number</span>
+</pre>
+<p>(d) Compute the error estimate for <tt>t=0.5</tt> and compare with the actual error.</p>
+<pre class="codeinput">e = exp(1);
+M = 2; <span class="comment">%d_tF has the largest possible value of 2</span>
+delta_t = 0.5/50;
+n = 50;
+predicted_error = ((1 + M) * delta_t) / 2 * (e^(M * n * delta_t) - 1);
+actual_error = abs(sol(50) - sin(0.5^2));
+fprintf(<span class="string">"Bounded Error: %g\n"</span>, predicted_error);
+fprintf(<span class="string">"Actual Error: %g\n"</span>, actual_error);
+</pre>
+<pre class="codeoutput">Bounded Error: 0.0257742
+Actual Error: 0.00482867
+</pre>
+<p>(e) Change the time step and compare the new error estimate with the actual error. Comment on how it confirms the order of Euler's method.</p>
+<pre class="codeinput">delta_t = delta_t/2;
+sol = euler(f, 0, linspace(0, 0.5, 100));
+predicted_error = ((1 + M) * delta_t) / 2 * (e^(M * n * delta_t) - 1);
+actual_error = abs(sol(50) - sin(0.5^2));
+fprintf(<span class="string">"New Bounded Error: %g\n"</span>, predicted_error);
+fprintf(<span class="string">"Actual Error: %g\n"</span>, actual_error);
+<span class="comment">%0.00486541 / 0.0257742 = 0.1888</span>
+<span class="comment">%The early nearly halfs as the step size doubles</span>
+<span class="comment">%It doesn't perfectly half because delta_t is also in the exponential</span>
+</pre>
+<pre class="codeoutput">New Bounded Error: 0.00486541
+Actual Error: 0.187444
+</pre>
+<h2 id="15">Adaptive Step Size</h2>
+<p>As mentioned in lab 2, the step size in <tt>ode45</tt> is adapted to a specific error tolerance.</p>
+<p>The idea of adaptive step size is to change the step size <tt>h</tt> to a smaller number whenever the derivative of the solution changes quickly. This is done by evaluating f(t,y) and checking how it changes from one iteration to the next.</p>
+<h2 id="16">Exercise 4</h2>
+<p>Objective: Create an Adaptive Euler method, with an adaptive step size <tt>h</tt>.</p>
+<p>Details: Create an m-file which accepts the variables <tt>(t0,tN,y0,h)</tt>, as in exercise 1, where <tt>h</tt> is an initial step size. You may also want to pass the function into the ODE the way <tt>ode45</tt> does.</p>
+<p>Create an implementation of Euler's method by modifying your solution to exercise 1. Change it to include the following:</p>
+<p>(a) On each timestep, make two estimates of the value of the solution at the end of the timestep: <tt>Y</tt> from one Euler step of size <tt>h</tt> and <tt>Z</tt> from two successive Euler steps of size <tt>h/2</tt>. The difference in these two values is an estimate for the error.</p>
+<p>(b) Let <tt>tol=1e-8</tt> and <tt>D=Z-Y</tt>. If <tt>abs(D)&lt;tol</tt>, declare the step to be successful and set the new solution value to be <tt>Z+D</tt>. This value has local error <tt>O(h^3)</tt>. If <tt>abs(D)&gt;=tol</tt>, reject this step and repeat it with a new step size, from (c).</p>
+<p>(c) Update the step size as <tt>h = 0.9*h*min(max(tol/abs(D),0.3),2)</tt>.</p>
+<p>Comment on what the formula for updating the step size is attempting to achieve.</p>
+<pre class="codeinput">
+<span class="comment">%%The update will try and change the step size by a maximum of 2 (increase) and</span>
+<span class="comment">%%minimum of 0.3 (decrease). If the actual error D is smaller than the tolerance, the</span>
+<span class="comment">%%estimate is good and the step size can increase to reduce the number of</span>
+<span class="comment">%%computations. The 0.9 coeffecient again reduces the step size so it doesn't increase too</span>
+<span class="comment">%%much, and cause the solution to diverge, leading to more corrective</span>
+<span class="comment">%%iterations.</span>
+</pre>
+<h2 id="17">Exercise 5</h2>
+<p>Objective: Compare Euler to your Adaptive Euler method.</p>
+<p>Details: Consider the IVP from exercise 3.</p>
+<p>(a) Use Euler method to approximate the solution from <tt>t=0</tt> to <tt>t=0.75</tt> with <tt>h=0.025</tt>.</p>
+<pre class="codeinput">f = @(t, y) 2 * t * sqrt(1-y^2);
+tvals = linspace(0, 0.75, 0.75 / 0.025);
+sol_euler = euler(f, 0, tvals);
+</pre>
+<p>(b) Use your Adaptive Euler method to approximate the solution from <tt>t=0</tt> to <tt>t=0.75</tt> with initial <tt>h=0.025</tt>.</p>
+<pre class="codeinput">[t, y] = euler_adaptive(f, 0, 0.75, 0, 0.025);
+</pre>
+<p>(c) Plot both approximations together with the exact solution.</p>
+<pre class="codeinput">exact = sin(tvals.^2);
+plot(tvals, sol_euler, <span class="string">"r"</span>, t, y, <span class="string">"g"</span>, tvals, exact, <span class="string">'b*'</span>)
+legend(<span class="string">"Euler"</span>, <span class="string">"Adaptive Euler"</span>, <span class="string">"Exact"</span>, <span class="string">"Location"</span>,<span class="string">"southeast"</span>);
+title(<span class="string">"Q5: Adaptive Euler"</span>);
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"y"</span>);
+</pre>
+<img vspace="5" hspace="5" src="lab3_omarali3_04.png" alt=""> <h2 id="20">Exercise 6</h2>
+<p>Objective: Problems with Numerical Methods.</p>
+<p>Details: Consider the IVP from exercise 3 (and 5).</p>
+<p>(a) From the two approximations calculated in exercise 5, which one is closer to the actual solution (done in 3.b)? Explain why.</p>
+<pre class="codeinput">
+<span class="comment">%From the graph, it's clear the adaptive euler method is much closer to the</span>
+<span class="comment">%actual solution. This is because every y-value determined must fall within</span>
+<span class="comment">%a certain tolerance for the adaptive method. This ensures the solution</span>
+<span class="comment">%does not begin to diverge at some point, preventing long term effects on the</span>
+<span class="comment">%solution.</span>
+</pre>
+<p>(b) Plot the exact solution (from exercise 3.b), the Euler's approximation (from exercise 3.a) and the adaptive Euler's approximation (from exercise 5) from <tt>t=0</tt> to <tt>t=1.5</tt>.</p>
+<pre class="codeinput">t0 = 0;
+tf = 1.5;
+h = 0.025;
+tvals = linspace(t0, tf, 0.75 / h);
+sol_euler = euler(f, 0, tvals);
+[t, y] = euler_adaptive(f, t0, tf, 0, h);
+exact = sin(tvals.^2);
+plot(tvals, sol_euler, <span class="string">"r"</span>, t, y, <span class="string">"g"</span>, tvals, exact, <span class="string">'b*'</span>)
+legend(<span class="string">"Euler"</span>, <span class="string">"Adaptive Euler"</span>, <span class="string">"Exact"</span>, <span class="string">"Location"</span>,<span class="string">"southeast"</span>);
+title(<span class="string">"Q6: Adaptive Euler Expanding the Interval"</span>);
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"y"</span>);
+</pre>
+<pre class="codeoutput">Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+</pre>
+<img vspace="5" hspace="5" src="lab3_omarali3_05.png" alt=""> <p>(c) Notice how the exact solution and the approximations become very different. Why is that? Write your answer as a comment.</p>
+<pre class="codeinput">
+<span class="comment">%%The adaptive approximation flattens out after the maximum, while the</span>
+<span class="comment">%%euler method rises and continues to diverge. This is due to the</span>
+<span class="comment">%%differential equation. y can not be &gt; 1, otherwise the square root term</span>
+<span class="comment">%%will be imaginary. Since t is always increase on the interval and the y</span>
+<span class="comment">%%term will always be positive, the approximation will never decrease. In</span>
+<span class="comment">%%addition, for the adaptive method, since the slope is 0 at its maximum,</span>
+<span class="comment">%%D is also approximately 0, meaning the step size update will try to</span>
+<span class="comment">%%increase.</span>
+</pre>
+<p>Functions used in other files.</p>
+<pre class="codeinput">
+<span class="keyword">function</span> y = heun(f, t0, tN, y0, h)
+    N = floor((tN - t0) ./ h); <span class="comment">%N is the number of iterations. Don't use int32, conflicts with tan</span>
+    y = zeros(1, N);
+    y(1) = y0;
+    <span class="keyword">for</span> i=1:N
+        curr_slope = f(t0 + h * (i - 1), y(i));
+        next_slope = f(t0 + h * (i), y(i) + h * curr_slope);
+        y(i + 1) = y(i) + h / 2 * (curr_slope + next_slope);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> xc=euler(fs,x0,tc);
+<span class="comment">% function xc=euler(fs,x0,tc);</span>
+<span class="comment">%</span>
+<span class="comment">% (c) 2001, Peter Brinkmann (brinkman@math.uiuc.edu)</span>
+<span class="comment">%</span>
+<span class="comment">% euler: computes numerical solutions of initial value problems of the form</span>
+<span class="comment">%	dx/dt=f(t,x), x(t0)=x0 (where t0=tc(1))</span>
+<span class="comment">% using Euler's method. x and f can be scalars or vertical vectors of the</span>
+<span class="comment">% same dimension.</span>
+<span class="comment">%</span>
+<span class="comment">% Usage example:</span>
+<span class="comment">%	xc=euler(inline('x.*y','x','y'), 2.5, 0:0.01:1)</span>
+<span class="comment">%</span>
+<span class="comment">% Parameters:</span>
+<span class="comment">%	fs: an inline function f(t,x) or string containing the</span>
+<span class="comment">%		name of a function of (t,x)</span>
+<span class="comment">%		(see .octaverc for the implementation of inline functions under</span>
+<span class="comment">%		Octave)</span>
+<span class="comment">%		The function given by fs must be of the form f(t,x) and return</span>
+<span class="comment">%		the value of f when evaluated at (t,x). The function should be</span>
+<span class="comment">%		able to deal with vector input, i.e., the code should use the</span>
+<span class="comment">%		vectorized operators .*, ./, etc., instead of *, /, etc. A string</span>
+<span class="comment">%		that may contain nonvectorized operators can be fed through the</span>
+<span class="comment">%		function vectorize in order to achieve this.</span>
+<span class="comment">%	x0: initial coordinate (or vector of initial coordinates; the dimension</span>
+<span class="comment">%		of x0 must match the dimension of the values computed by fs);</span>
+<span class="comment">%	tc: a row vector of t-coordinates, indexed from 1</span>
+<span class="comment">%</span>
+<span class="comment">% Returns:</span>
+<span class="comment">%	xc: row vector of x-coordinates of the solution, indexed from 1</span>
+<span class="comment">%		(or a matrix of coordinates when solving a system of</span>
+<span class="comment">%		differential equations)</span>
+<span class="comment">%</span>
+<span class="comment">% Notes on indexing:</span>
+<span class="comment">% matlab and octave start indexing arrays from 1, and so the initial</span>
+<span class="comment">% element of the array xc is xc(1). This is unfortunate because people</span>
+<span class="comment">% usually denote the initial x-value for the differential equation by x0,</span>
+<span class="comment">% so that x0=xc(1).</span>
+
+<span class="comment">% This program is free software; you can redistribute it and/or modify</span>
+<span class="comment">% it under the terms of the GNU General Public License as published by</span>
+<span class="comment">% the Free Software Foundation (http://www.gnu.org/copyleft/gpl.html).</span>
+
+	x=x0;
+	xc=[x0];	<span class="comment">% so that xc(1)=x0</span>
+
+	<span class="keyword">for</span> i=1:(length(tc)-1)
+		h=tc(i+1)-tc(i);
+		k1=feval(fs,tc(i),x);
+		x=x+h*k1;
+		xc=[xc,x];
+	<span class="keyword">end</span>;
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [T, Y] = euler_adaptive(f, t0, tN, y0, h)
+    N = floor((tN - t0) ./ h); <span class="comment">%N is the number of iterations. Don't use int32, conflicts with tan</span>
+    tol=1e-8;
+    y = y0;
+    t = t0;
+    T = t0;
+    Y = y0;
+    <span class="keyword">while</span> t &lt; tN
+        <span class="keyword">if</span> t + h &gt; tN
+            h = tN - t;  <span class="comment">% Adjust step size for the last step</span>
+        <span class="keyword">end</span>
+
+        y_onestep = y + h * f(t, y);
+        y_halfstep_1 = y + h / 2 * f(t, y);
+        z = y_halfstep_1 + h / 2 * f(t + h/2, y_halfstep_1);
+
+        D = z - y_onestep;
+        <span class="keyword">if</span> abs(D) &lt; tol
+            t = t + h;
+            y = z + D;
+            T = [T, t];
+            Y = [Y, y];
+        <span class="keyword">end</span>
+        h = 0.9*h*min(max(tol/abs(D),0.3),2);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% ODE Lab: Creating your own ODE solver in MATLAB
+% In this lab, you will write your own ODE solver for the Improved Euler method 
+% (also known as the Heun method), and compare its results to those of |ode45|.
+% 
+% You will also learn how to write a function in a separate m-file and execute 
+% it.
+% 
+% Opening the m-file lab3.m in the MATLAB editor, step through each part using 
+% cell mode to see the results. Compare the output with the PDF, which was generated 
+% from this m-file.
+% 
+% There are six (6) exercises in this lab that are to be handed in on the due 
+% date. Write your solutions in the template, including appropriate descriptions 
+% in each step. Save the .m files and submit them online on Quercus.
+%% Student Information
+% Student Name: Adam Omarali
+% 
+% Student Number: 1010132866
+%% Creating new functions using m-files.
+% Create a new function in a separate m-file:
+% 
+% Specifics: Create a text file with the file name f.m with the following lines 
+% of code (text):
+%%
+% 
+%  function y = f(a,b,c) 
+%  y = a+b+c;
+%
+%% 
+% Now MATLAB can call the new function f (which simply accepts 3 numbers and 
+% adds them together). To see how this works, type the following in the matlab 
+% command window: sum = f(1,2,3)
+%% Exercise 1
+% Objective: Write your own ODE solver (using the Heun/Improved Euler Method).
+% 
+% Details: This m-file should be a function which accepts as variables (t0,tN,y0,h), 
+% where t0 and tN are the start and end points of the interval on which to solve 
+% the ODE, y0 is the initial condition of the ODE, and h is the stepsize. You 
+% may also want to pass the function into the ODE the way |ode45| does (check 
+% lab 2).
+% 
+% Note: you will need to use a loop to do this exercise. You will also need 
+% to recall the Heun/Improved Euler algorithm learned in lectures. 
+%% Exercise 2
+% Objective: Compare Heun with |ode45|.
+% 
+% Specifics: For the following initial-value problems (from lab 2, exercises 
+% 1, 4-6), approximate the solutions with your function from exercise 1 (Improved 
+% Euler Method). Plot the graphs of your Improved Euler Approximation with the 
+% |ode45| approximation.
+% 
+% (a) |y' = y tan t + sin t, y(0) = -1/2| from |t = 0| to |t = pi|
+% 
+% (b) |y' = 1 / y^2 , y(1) = 1| from |t=1| to |t=10|
+% 
+% (c) |y' = 1 - t y / 2, y(0) = -1| from |t=0| to |t=10|
+% 
+% (d) |y' = y^3 - t^2, y(0) = 1| from |t=0| to |t=1|
+% 
+% Comment on any major differences, or the lack thereof. You do not need to 
+% reproduce all the code here. Simply make note of any differences for each of 
+% the four IVPs.
+
+h = 0.05;
+i = [0, pi];
+y0 = -0.5;
+tvals = linspace(i(1), i(2), floor((i(2) - i(1)) / h) + 1);
+f = @(t, y) y * tan(t) + sin(t);
+sol = heun(f, i(1), i(2), y0, h);
+solode = ode45(f, [i(1), i(2)], y0);
+
+plot(tvals, sol, solode.x, solode.y)
+legend("Heun Method", "ode45", "Location", "southeast");
+title("Q2: Part A");
+%Not many differences. The Heun Method is sharp near the inflection point. The 
+%ode45 solution is more pointy around the points where the derivative
+%approaches 0.
+%%
+i = [1, 10];
+y0 = 1;
+tvals = linspace(i(1), i(2), floor((i(2) - i(1)) / h) + 1);
+f = @(t, y) 1 / y^2;
+sol = heun(f, i(1), i(2), y0, h);
+solode = ode45(f, [i(1), i(2)], y0);
+plot(tvals, sol, solode.x, solode.y)
+legend("Heun Method", "ode45", "Location", "southeast");
+title("Q2: Part B");
+%%
+i = [0, 10];
+y0 = -1;
+tvals = linspace(i(1), i(2), floor((i(2) - i(1)) / h) + 1);
+f = @(t, y) 1 - t*y / 2;
+sol = heun(f, i(1), i(2), y0, h);
+solode = ode45(f, [i(1), i(2)], y0);
+plot(tvals, sol, solode.x, solode.y)
+legend("Heun Method", "ode45", "Location", "southeast");
+title("Q2: Part C");
+%The Heun Method is smoother near the maximum than the ode45.
+%%
+i = [0, 1];
+y0 = 1;
+tvals = linspace(i(1), i(2), floor((i(2) - i(1)) / h) + 1);
+f = @(t, y) y^3 - t^2;
+sol = heun(f, i(1), i(2), y0, h);
+solode = ode45(f, [i(1), i(2)], y0);
+plot(tvals, sol, solode.x, solode.y)
+legend("Heun Method", "ode45", "Location", "southeast");
+title("Q2: Part D");
+%The Heun method diverges very quickly.
+%ode45 seems to be limited by its ability to integrate.
+%% Exercise 3
+% Objective: Use Euler's method and verify an estimate for the global error.
+% 
+% Details: 
+% 
+% (a) Use Euler's method (you can use euler.m from iode) to solve the IVP
+% 
+% |y' = 2 t sqrt( 1 - y^2 ) , y(0) = 0|
+% 
+% from |t=0| to |t=0.5|.
+
+f = @(t, y) 2 * t * sqrt(1-y^2);
+sol = euler(f, 0, linspace(0, 0.5, 50));
+%% 
+% (b) Calculate the solution of the IVP and evaluate it at |t=0.5|.
+
+exact = @(t) sin (t^2);
+fprintf("y(0.5) = %g\n", exact(0.5));
+%% 
+% (c) Read the attached derivation of an estimate of the global error for Euler's 
+% method. Type out the resulting bound for En here in a comment. Define each variable.
+
+%En <= ((1 + M) * delta t) / 2 * (e^(M * n * delta t) - 1) 
+%En: Error of the nth term calculated by euler's method
+%M:the bound |f|, |d_tF|, |d_yF|
+%delta t: step size
+%n: the term number
+%% 
+% (d) Compute the error estimate for |t=0.5| and compare with the actual error.
+
+e = exp(1);
+M = 2; %d_tF has the largest possible value of 2
+delta_t = 0.5/50;
+n = 50;
+predicted_error = ((1 + M) * delta_t) / 2 * (e^(M * n * delta_t) - 1);
+actual_error = abs(sol(50) - sin(0.5^2));
+fprintf("Bounded Error: %g\n", predicted_error);
+fprintf("Actual Error: %g\n", actual_error);
+%% 
+% (e) Change the time step and compare the new error estimate with the actual 
+% error. Comment on how it confirms the order of Euler's method.
+
+delta_t = delta_t/2;
+sol = euler(f, 0, linspace(0, 0.5, 100));
+predicted_error = ((1 + M) * delta_t) / 2 * (e^(M * n * delta_t) - 1);
+actual_error = abs(sol(50) - sin(0.5^2));
+fprintf("New Bounded Error: %g\n", predicted_error);
+fprintf("Actual Error: %g\n", actual_error);
+%0.00486541 / 0.0257742 = 0.1888
+%The early nearly halfs as the step size doubles
+%It doesn't perfectly half because delta_t is also in the exponential
+%% Adaptive Step Size
+% As mentioned in lab 2, the step size in |ode45| is adapted to a specific error 
+% tolerance.
+% 
+% The idea of adaptive step size is to change the step size |h| to a smaller 
+% number whenever the derivative of the solution changes quickly. This is done 
+% by evaluating f(t,y) and checking how it changes from one iteration to the next.
+%% Exercise 4
+% Objective: Create an Adaptive Euler method, with an adaptive step size |h|.
+% 
+% Details: Create an m-file which accepts the variables |(t0,tN,y0,h)|, as in 
+% exercise 1, where |h| is an initial step size. You may also want to pass the 
+% function into the ODE the way |ode45| does.
+% 
+% Create an implementation of Euler's method by modifying your solution to exercise 
+% 1. Change it to include the following:
+% 
+% (a) On each timestep, make two estimates of the value of the solution at the 
+% end of the timestep: |Y| from one Euler step of size |h| and |Z| from two successive 
+% Euler steps of size |h/2|. The difference in these two values is an estimate 
+% for the error.
+% 
+% (b) Let |tol=1e-8| and |D=Z-Y|. If |abs(D)<tol|, declare the step to be successful 
+% and set the new solution value to be |Z+D|. This value has local error |O(h^3)|. 
+% If |abs(D)>=tol|, reject this step and repeat it with a new step size, from 
+% (c).
+% 
+% (c) Update the step size as |h = 0.9*h*min(max(tol/abs(D),0.3),2)|.
+% 
+% Comment on what the formula for updating the step size is attempting to achieve.
+
+%%The update will try and change the step size by a maximum of 2 (increase) and
+%%minimum of 0.3 (decrease). If the actual error D is smaller than the tolerance, the
+%%estimate is good and the step size can increase to reduce the number of
+%%computations. The 0.9 coeffecient again reduces the step size so it doesn't increase too
+%%much, and cause the solution to diverge, leading to more corrective
+%%iterations.
+%% Exercise 5
+% Objective: Compare Euler to your Adaptive Euler method.
+% 
+% Details: Consider the IVP from exercise 3.
+% 
+% (a) Use Euler method to approximate the solution from |t=0| to |t=0.75| with 
+% |h=0.025|.
+
+f = @(t, y) 2 * t * sqrt(1-y^2);
+tvals = linspace(0, 0.75, 0.75 / 0.025);
+sol_euler = euler(f, 0, tvals);
+%% 
+% (b) Use your Adaptive Euler method to approximate the solution from |t=0| 
+% to |t=0.75| with initial |h=0.025|.
+
+[t, y] = euler_adaptive(f, 0, 0.75, 0, 0.025);
+%% 
+% (c) Plot both approximations together with the exact solution.
+
+exact = sin(tvals.^2);
+plot(tvals, sol_euler, "r", t, y, "g", tvals, exact, 'b*')
+legend("Euler", "Adaptive Euler", "Exact", "Location","southeast");
+title("Q5: Adaptive Euler");
+xlabel("t");
+ylabel("y");
+%% Exercise 6
+% Objective: Problems with Numerical Methods.
+% 
+% Details: Consider the IVP from exercise 3 (and 5).
+% 
+% (a) From the two approximations calculated in exercise 5, which one is closer 
+% to the actual solution (done in 3.b)? Explain why.
+
+%From the graph, it's clear the adaptive euler method is much closer to the
+%actual solution. This is because every y-value determined must fall within
+%a certain tolerance for the adaptive method. This ensures the solution
+%does not begin to diverge at some point, preventing long term effects on the
+%solution.
+%% 
+% (b) Plot the exact solution (from exercise 3.b), the Euler's approximation 
+% (from exercise 3.a) and the adaptive Euler's approximation (from exercise 5) 
+% from |t=0| to |t=1.5|.
+
+t0 = 0;
+tf = 1.5;
+h = 0.025;
+tvals = linspace(t0, tf, 0.75 / h);
+sol_euler = euler(f, 0, tvals);
+[t, y] = euler_adaptive(f, t0, tf, 0, h);
+exact = sin(tvals.^2);
+plot(tvals, sol_euler, "r", t, y, "g", tvals, exact, 'b*')
+legend("Euler", "Adaptive Euler", "Exact", "Location","southeast");
+title("Q6: Adaptive Euler Expanding the Interval");
+xlabel("t");
+ylabel("y");
+%% 
+% (c) Notice how the exact solution and the approximations become very different. 
+% Why is that? Write your answer as a comment.
+
+%%The adaptive approximation flattens out after the maximum, while the
+%%euler method rises and continues to diverge. This is due to the
+%%differential equation. y can not be > 1, otherwise the square root term
+%%will be imaginary. Since t is always increase on the interval and the y
+%%term will always be positive, the approximation will never decrease. In
+%%addition, for the adaptive method, since the slope is 0 at its maximum,
+%%D is also approximately 0, meaning the step size update will try to
+%%increase.
+%% 
+% Functions used in other files.
+
+function y = heun(f, t0, tN, y0, h)
+    N = floor((tN - t0) ./ h); %N is the number of iterations. Don't use int32, conflicts with tan
+    y = zeros(1, N);
+    y(1) = y0;
+    for i=1:N
+        curr_slope = f(t0 + h * (i - 1), y(i));
+        next_slope = f(t0 + h * (i), y(i) + h * curr_slope);
+        y(i + 1) = y(i) + h / 2 * (curr_slope + next_slope);
+    end
+end
+
+function xc=euler(fs,x0,tc);
+% function xc=euler(fs,x0,tc);
+%
+% (c) 2001, Peter Brinkmann (brinkman@math.uiuc.edu)
+%
+% euler: computes numerical solutions of initial value problems of the form
+%	dx/dt=f(t,x), x(t0)=x0 (where t0=tc(1))
+% using Euler's method. x and f can be scalars or vertical vectors of the
+% same dimension.
+%
+% Usage example:
+%	xc=euler(inline('x.*y','x','y'), 2.5, 0:0.01:1)
+%
+% Parameters:
+%	fs: an inline function f(t,x) or string containing the
+%		name of a function of (t,x)
+%		(see .octaverc for the implementation of inline functions under
+%		Octave)
+%		The function given by fs must be of the form f(t,x) and return
+%		the value of f when evaluated at (t,x). The function should be
+%		able to deal with vector input, i.e., the code should use the
+%		vectorized operators .*, ./, etc., instead of *, /, etc. A string
+%		that may contain nonvectorized operators can be fed through the
+%		function vectorize in order to achieve this.
+%	x0: initial coordinate (or vector of initial coordinates; the dimension
+%		of x0 must match the dimension of the values computed by fs);
+%	tc: a row vector of t-coordinates, indexed from 1
+%
+% Returns:
+%	xc: row vector of x-coordinates of the solution, indexed from 1
+%		(or a matrix of coordinates when solving a system of
+%		differential equations)
+%
+% Notes on indexing:
+% matlab and octave start indexing arrays from 1, and so the initial
+% element of the array xc is xc(1). This is unfortunate because people
+% usually denote the initial x-value for the differential equation by x0,
+% so that x0=xc(1).
+
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation (http://www.gnu.org/copyleft/gpl.html).
+
+	x=x0;
+	xc=[x0];	% so that xc(1)=x0
+
+	for i=1:(length(tc)-1)
+		h=tc(i+1)-tc(i);
+		k1=feval(fs,tc(i),x);
+		x=x+h*k1;
+		xc=[xc,x];
+	end;
+end
+
+function [T, Y] = euler_adaptive(f, t0, tN, y0, h)
+    N = floor((tN - t0) ./ h); %N is the number of iterations. Don't use int32, conflicts with tan
+    tol=1e-8;
+    y = y0;
+    t = t0;
+    T = t0;
+    Y = y0;
+    while t < tN
+        if t + h > tN
+            h = tN - t;  % Adjust step size for the last step
+        end
+       
+        y_onestep = y + h * f(t, y);
+        y_halfstep_1 = y + h / 2 * f(t, y);
+        z = y_halfstep_1 + h / 2 * f(t + h/2, y_halfstep_1);
+        
+        D = z - y_onestep;
+        if abs(D) < tol
+            t = t + h;
+            y = z + D;
+            T = [T, t];
+            Y = [Y, y];
+        end
+        h = 0.9*h*min(max(tol/abs(D),0.3),2);
+    end
+end
+##### SOURCE END #####
+-->
+</body>
+</html>

@@ -1,0 +1,265 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{float}
+%\usepackage{wrapfig}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9.9in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
+\setlength{\topmargin}{-2.5 cm}
+\setlength{\parskip}{0.7\baselineskip} % space between paragraphs
+\setlength{\parindent}{0 cm} % increase this if you like paragraphs to be indented
+\usepackage{hyperref}
+\usepackage{xcolor}
+\counterwithout{figure}{section}
+
+\pagestyle{empty}
+
+\newcommand{\e}{\mathrm{e}}
+
+\begin{document}
+\vspace{-5cm}
+\title{\bf{Pulses In Cables}}
+\author{Adam Omarali (1010132866), Eric Kim (1010043089)}
+% \date{November 25 2024 \linebreak 
+% PHY293}
+\maketitle
+
+\section{Introduction}
+In an ideal circuit, the speed of propagation of information should theoretically be infinite. However, in reality, the speed of the pulses are reduced by a factor related to the physical properties of the cable insulator. 	
+
+The ideal velocity of a wave can be determined by examining an ideal transmission line as a series of inductors and capacitors as seen in Figure \ref{fig:ideal_transmission_line}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/ideal_line.png}
+    \caption{Ideal Transmission Line [1]}
+    \label{fig:ideal_transmission_line}
+\end{figure}
+
+The rate of change for both current I and voltage V using the self-inductance and self-capacitance of the element can be found using the following equations:
+\begin{equation}
+    \frac{\partial V}{\partial x} = -L_0 \frac{\partial I}{\partial t} 
+\end{equation}
+\begin{equation}
+    \frac{\partial I}{\partial x} = -C_0 \frac{\partial V}{\partial t}
+\end{equation}
+
+This then leads to the wave equations of voltage and current:
+\begin{equation}
+    \frac{\partial^2 V}{\partial x^2} = L_0 C_0 \frac{\partial^2 V}{\partial t^2}
+\end{equation}
+\begin{equation}
+    \frac{\partial^2 I}{\partial x^2} = L_0 C_0 \frac{\partial^2 I}{\partial t^2}
+\end{equation}
+
+This results in the equation for velocity of the wave propagation:
+\begin{equation}
+    v = \frac{1}{\sqrt{L_0 C_0}}
+    \label{eq:velocity_model}
+\end{equation}
+
+Moving beyond the ideal transmission line, velocity can also be found within a coaxial cable modeled as a continuous distribution of LC elements.
+The inductance per unit length $L_0$ and capacitance per unit length $C_0$ can be found using the following equations:
+\begin{equation}
+    L_0 = \frac{\mu}{2\pi} \ln{\left(\frac{R_2}{R_1}\right)}
+\end{equation}
+\begin{equation}
+    C_0 = \frac{2\pi \epsilon}{\ln{\left(\frac{R_2}{R_1}\right)}}
+\end{equation}
+
+Where $R_1$ is the inner radius of the cable, $R_2$ is the outer radius of the cable, $\mu$ is the permeability of the dielectric, and $\epsilon$ is the permittivity of the dielectric.
+
+Taking the product of the two equations allows us express our velocity equation purely in terms of the dielectric properties of a coxial cable:
+\begin{equation}
+    v = \frac{1}{\sqrt{L_0C_0}} = \frac{1}{\sqrt{\mu \epsilon}}
+    \label{eq:velocity_cable}
+\end{equation}
+
+Two important factors to consider with coaxial cables is the load effect and attenuation. The load effect is the impedance at the end of the cable, and influences the reflection and transmission of the wave. This behavior can be modeled using the following equations:
+\begin{equation}
+    r = \frac{Z_L - Z_0}{Z_L + Z_0}
+\end{equation}
+\begin{equation}
+    t = \frac{2Z_L}{Z_L + Z_0}
+\end{equation}
+
+Where r is the reflection coefficient, t is the transmission coefficient, $Z_L$ is the load impedance, and $Z_0$ is the characteristic impedance of the cable. An open circuit will have a reflection coefficient of 1 (since $Z_L = \infty$), while a short circuit will have a reflection coefficient of -1 (since $Z_L = 0$).
+
+The goal is often to find a resistave load that will minimize the reflection coefficient.
+The characteristic impedance of the cable can be found using the following equation [2]:
+\begin{equation}
+    Z_0 = \frac{60}{\sqrt{\epsilon}} \ln{\left(\frac{R_2}{R_1}\right)}
+    \label{eq:impedance}
+\end{equation}
+
+Signals also are not propagated without loss. The biggest contributor is the attenuation factor:
+\begin{equation}
+    \alpha = \frac{10}{L} \log{\left(\frac{V_{reflected}}{V_{initial}}\right)}
+    \label{eq:attenuation}
+\end{equation}
+
+Where $\alpha$ is the attenuation factor measured in $\frac{dB}{m}$, $V_{reflected}$ is the voltage of the reflected wave, $V_{initial}$ is the voltage of the initial wave, and L is the length of the cable.
+
+\section{Materials and Methods}
+The materials used in this lab are as follows:
+\begin{itemize}
+    \item 41 LC Units Transmission Model
+    \item Transmission Line / Coaxial Cable
+    \item Oscilloscope
+    \item Wave Generator
+    \item Terminating Resistors (to connect to the transmission line): 10$\Omega$, 27$\Omega$, 51$\Omega$, 100$\Omega$, 270$\Omega$, Short Circuit, Open Circuit
+    \item Resistor Box (to connect to the transmission model)
+\end{itemize}
+
+\subsection{Part 1}
+For part 1, the 41 LC units transmission model is used to determine the propagation speed of the wave and the characteristic impedance match $Z_0$ is found.
+
+This experiment was set up by connecting the output of the wave generator to channel 1 of the oscilloscope, and also the transmission model. 
+Then the transmission model is connected to channel 2 of the oscilloscope, effectively allowing us to compare the direct output and the output through the transmission model. These are shown in Figure \ref{fig:setup}.
+The pulse width of the wave generator was set to $75\mu s$, and the frequency to $300Hz$. Then a resistive load was added at the end of the transmission model until a returned pulse was no longer observed on the oscilloscope (channel 1). Finally, using the connector on the model, the voltage and delay time (between channels 1 and 2) of every 4 LC units were recorded. 
+
+\subsection{Part 2}
+For part 2, the real transmission line (coaxial cable) is used and connected to variable resistors to measure the time delay in the reflected pulse. 
+
+Again the output of the wave generator is connected to channel 1 of the oscilloscope and the coaxial cable. This is shown in Figure \ref{fig:setup}. 
+Set the wave generator to a pulse width of $50ns$ and frequency of $15kHz$. Then connect the short circuit, open circuit, and resistors to the other end of the transmission line. Measure the delay between the midpoint rise of the initial and reflected pulse using cursors and 128 averages. 
+Then measure the voltage peak of the initial and reflected pulses when the open circuit is attached to find the attenuation factor, $\alpha$. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/method.jpeg}
+    \caption{Setup of the Experiment for Part 1 and Part 2.}
+    \label{fig:setup}
+\end{figure}
+
+\section{Data}
+\subsection*{Part 1}
+After experimenting with various resistive loads, it was found that a load of 400$\Omega$ was the impedance match for the 41 LC transmission model such that there was no returned wave on channel 1.
+
+To determine the speed of propogation, a plot of the number of LC units and the time delay was created with data shown in the appendix Table 3.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/plot.png}
+    \caption{The number of LC units and the subsequent time delay is plotted in a graph above. 
+    The uncertainty for the number of LC units is 0 and the uncertainty in time delay is indicated by the blue bars. Fitting a line of best fit using the Scipy curve\_fit function [3] yielded the following equation of $y=(3.85\pm0.01)s^{-1}x - (0.86\pm0.30)s^{-1}$. The uncertainty in the slope and intercept is given by Scipy's covariance matrix and is one standard deviation of the parameters.}
+    \label{fig:plot}
+\end{figure}
+
+For the plot, two goodness of fit criteria are given: $R^2 = 0.999904$ and $\chi_v^2 = 0.08$. The $R^2$ value is approximately one, meaning the model fits the data well. The $\chi_v^2$ value is fairly small compared to the ideal value of 1. Therefore the model may be overfitting the data and that uncertainties may be overestimated.
+
+\subsection*{Part 2}
+
+\begin{table}[H]
+    \begin{tabular}{|c|c|c|}
+    \hline
+    \multicolumn{1}{|l|}{Resistor $\Omega$} & \multicolumn{1}{l|}{Delay (ns)} & \multicolumn{1}{l|}{$\Delta$ Delay (ns)} \\ \hline
+    Open Circuit                                           & 501                             & 4.5                                                   \\ \hline
+    Short Circuit                                          & 502                             & 4.8                                                   \\ \hline
+    10                                                     & 501                             & 7.6                                                   \\ \hline
+    27                                                     & 500                             & 3.75                                                  \\ \hline
+    51                                                     & No Return                       & 3.75                                                  \\ \hline
+    100                                                    & 500.5                           & 4                                                     \\ \hline
+    270                                                    & 502                             & 4.2                                                   \\ \hline
+    \end{tabular}
+    \centering
+    \label{Tab:part2_a}
+    \caption{This table shows the delay between the initial and reflected pulse for various resistive loads. The uncertainty in delay is also given and further discussed in the results.}
+\end{table}
+
+For the open circuit, data is also collected to calculate the attenuation factor:
+\begin{table}[H]
+    \begin{tabular}{|l|l|}
+    \hline
+    $V_{initial}$ (V)   & 5.3 $\pm$ 0.1   \\ \hline
+    $V_{reflected}$ (V) & 3.61 $\pm$ 0.04 \\ \hline
+    \end{tabular}
+    \centering
+    \label{Tab:part2_b}
+    \caption{The voltage peak measured on channel 1 for the initial and reflected pulse with uncertainties.}
+\end{table}
+
+\section{Analysis and Disscussion}
+
+\subsection*{Part 1}
+
+To find the wave velocity through the 41 transmission line model, we can use the slope of the best-fit line in Figure \ref{fig:plot}.
+By taking the reciprocal of the slope, an experimental velocity with a value of $(2.597\pm0.007)\times10^5\frac{m}{s}$ is found. Error is propogated using $\Delta y = \frac{\Delta x}{x^2}$. We can also use equation \ref{eq:velocity_model} to find the theoretical velocity of the wave propagation:
+\begin{equation}
+    v = \frac{1}{\sqrt{L_0 C_0}} = \frac{1}{\sqrt{(1.5 \pm 1\% \frac{mH}{m})(0.01 \pm3\% \frac{\mu F}{m})}} = (2.58\pm0.05)\times10^5\frac{m}{s}
+\end{equation}
+
+This uncertainty is found by propogating the error according to $\Delta v = \sqrt{\left(\frac{\partial v}{\partial L_0}\Delta L_0\right)^2 + \left(\frac{\partial v}{\partial C_0}\Delta C_0\right)^2}$.
+The experimental result is accuracte because it agrees with the theoretical value within 0.006\%. The result is also percise because the theoretical value is captued with the uncertainty of the experimental value.
+
+The uncertainty in time delay stems from two main sources. Firstly, from the ambiguity of where the wave starts on the oscilloscope and is taken as $\frac{1}{5}$ the total rise time (average of $\pm 2.71\mu s$). And secondly from the oscilloscope's cursor accuracy [4], $\pm 0.8 \mu s$.
+
+\subsection*{Part 2}
+
+By looking at the delay time across varying resistors in Table 1, all values fall within eachothers uncertainties. The uncertainty in the delay stems from the ambiguity of where the wave starts and is again taken as $\frac{1}{5}$ the total rise time (average of $\pm 3.68ns$). The oscilloscope cursor measurement uncertainty is also included ($\pm1.00ns$) [4]. 
+The nearly constant delay measurements mean the resistor has no effect on the time to traverse the coaxial cable. 
+For $51\Omega$, no delay time is observed because it matches the impedance corresponding to a reflection coefficient of 0. Therefore, the signal is fully transmitted.
+
+Taking the case with the lowest uncertainty ($R = 27\Omega$), and noting the distance to traverse the coaxial cable twice, $L = (96.72 \pm 0.04) m$, the speed can be calculated:
+\begin{equation}
+    v = \frac{2L}{\Delta t} = (1.93 \pm 0.01) \times 10^8 \frac{m}{s}
+\end{equation}
+
+Where error is propogated using $\Delta v = v\sqrt{(\frac{\Delta L}{L})^2 + (\frac{\Delta t}{t})^2}$.
+
+Since propagation in a transmission line has a medium unlike in a vacuum, there is some loss. This loss is given by the factor in equation \ref{eq:velocity_cable}. The theoretical speed of light is given:
+$v = \frac{c}{\sqrt{\mu\epsilon}} = (1.99\times10^8 \frac{m}{s})$
+
+Where $\mu = 1$ and $\epsilon = 2.25$ given by the dielectric material of the coxial cable. $c$ is the speed of light in a vacuum.
+
+The experimental speed falls within 3\% of the theoretical value and is therefore accurate. The theoretical value is not captured within the experimental uncertainty and is therefore not precise. This lack of precision can be a result of additional speed losses due to imperfect insulation causing kinetic energy loss through heat [5].
+
+When considering reflected waves, the impedance of the oscilloscope can be ignored. If considered $Z_L$ would comprise of two parrelel impedances. The oscilloscope impedance is $1M\Omega$ [4] and the total impedence is given by $Z_L = \frac{1}{\frac{1}{Z_R} + \frac{1}{Z_{oscilloscope}}}$ where $\frac{1}{Z_{oscilloscope}} \approx 0$. 
+
+For the attenuation factor, equation \ref{eq:attenuation} can be applied using the voltages from Table 2 and the length of the cable. This yields $\alpha = -0.06 \pm 0.03 \frac{dB}{m}$. 
+
+The uncertainty propogation is given by 
+$$\Delta \alpha = \sqrt{\left(\frac{\partial \alpha}{\partial V_{initial}}\Delta V_{initial}\right)^2 + \left(\frac{\partial \alpha}{\partial V_{reflected}}\Delta V_{reflected}\right)^2 + (\frac{\partial \alpha}{\partial L}\Delta L)^2}$$.
+
+The uncertainty is propagated from measurement uncertainty in the voltage due to fluctuations in the readings (taken as half the range of values the voltage fluctuated between) and the uncertainty in cable length.
+
+The impedance of the coaxial cable can be determined from equation \ref{eq:impedance}, where $\epsilon = 2.25$, $R_2 = 0.116inch$, $R_1 = 0.035inch$ given by the coxial cable data sheet [6]. $Z_0$ is found to be $47.9\Omega$. This is close to the $50\Omega$ impedance given by the data sheet [6] and emperical results with the $51\Omega$ resistor.
+
+\section{References}
+[1] Photoelectric Effect Manual \url{https://www.physics.utoronto.ca/~phy224_324/LabManuals/PhotoelectricEffect.pdf#page=6.66}
+
+[2] Coaxial cable \url{https://en.wikipedia.org/wiki/Coaxial_cable}
+
+[3] Scipy curve\_fit \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#curve-fit}
+
+[4] Digital Multimeters Specs \url{https://www.keysight.com/ca/en/assets/7018-06411/data-sheets/5992-3484.pdf}
+
+[5] Coaxial Cable Losses \url{https://picwire.com/Resources/Technical/Technical-Articles/Velocity}
+
+[6] Coaxial Cable Data Sheet \url{https://catalog.belden.com/techdata/EN/9203_techdata.pdf}
+
+\section{Appendix}
+\begin{table}[h]
+    \begin{tabular}{|l|r|r|}
+    \hline
+    % add 0.8 to the third column in the table below
+
+    \# of LC & \multicolumn{1}{l|}{Time Delay ($\mu$s)} & \multicolumn{1}{l|}{$\Delta$ Delay ($\mu$s)} \\ \hline
+    1        & 4.04                                 & 1.80                                        \\ \hline
+    5        & 20.45                                & 2.60                                        \\ \hline
+    9        & 36.08                                & 2.94                                        \\ \hline
+    13       & 51.12                                & 3.26                                        \\ \hline
+    17       & 66.35                                & 3.44                                        \\ \hline
+    21       & 81.72                                & 3.68                                        \\ \hline
+    25       & 96.98                                & 3.86                                        \\ \hline
+    29       & 112.13                               & 4.07                                        \\ \hline
+    33       & 127.45                               & 4.22                                        \\ \hline
+    37       & 142.69                               & 4.26                                        \\ \hline
+    41       & 159.60                               & 4.56                                        \\ \hline
+    \end{tabular}
+    \centering
+    \label{Tab:part1}
+    \caption{This table shows the time delay between the initial and reflected pulse for every 4 LC units. The uncertainty in delay is also given and further discussed in the results.}
+\end{table}
+
+\end{document}
