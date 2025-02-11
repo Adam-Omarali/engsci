@@ -1,0 +1,67 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{float}
+%\usepackage{wrapfig}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9.9in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
+\setlength{\topmargin}{-2.5 cm}
+\setlength{\parskip}{0.7\baselineskip} % space between paragraphs
+\setlength{\parindent}{0 cm} % increase this if you like paragraphs to be indented
+\usepackage{hyperref}
+\usepackage{xcolor}
+\counterwithout{figure}{section}
+
+\pagestyle{empty}
+
+\newcommand{\e}{\mathrm{e}}
+
+\begin{document}
+\vspace{-5cm}
+\title{\bf{Electron Spin Ressonance}}
+\author{Adam Omarali (1010132866), Joeun (1010043089)}
+% \date{November 25 2024 \linebreak 
+% PHY293}
+\maketitle
+
+\section{Introduction}
+
+\section{Materials and Methods}
+
+\section{Data}
+
+\section{Analysis and Disscussion}
+
+\section{References}
+[1] Electron Spin Ressonance Manual \url{https://www.physics.utoronto.ca/~phy224_324/LabManuals/ElectronSpinResonance.pdf#page=4.73}
+
+[2] Multimeter Datasheet \url{https://en.wikipedia.org/wiki/Coaxial_cable}
+
+[3] Scipy curve\_fit \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#curve-fit}
+
+\section{Appendix}
+\begin{table}[h]
+    \begin{tabular}{|l|r|r|}
+    \hline
+    % add 0.8 to the third column in the table below
+
+    \# of LC & \multicolumn{1}{l|}{Time Delay ($\mu$s)} & \multicolumn{1}{l|}{$\Delta$ Delay ($\mu$s)} \\ \hline
+    1        & 4.04                                 & 1.80                                        \\ \hline
+    5        & 20.45                                & 2.60                                        \\ \hline
+    9        & 36.08                                & 2.94                                        \\ \hline
+    13       & 51.12                                & 3.26                                        \\ \hline
+    17       & 66.35                                & 3.44                                        \\ \hline
+    21       & 81.72                                & 3.68                                        \\ \hline
+    25       & 96.98                                & 3.86                                        \\ \hline
+    29       & 112.13                               & 4.07                                        \\ \hline
+    33       & 127.45                               & 4.22                                        \\ \hline
+    37       & 142.69                               & 4.26                                        \\ \hline
+    41       & 159.60                               & 4.56                                        \\ \hline
+    \end{tabular}
+    \centering
+    \label{Tab:part1}
+    \caption{This table shows the time delay between the initial and reflected pulse for every 4 LC units. The uncertainty in delay is also given and further discussed in the results.}
+\end{table}
+
+\end{document}
