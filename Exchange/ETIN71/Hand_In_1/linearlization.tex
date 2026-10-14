@@ -1,0 +1,148 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage[
+    left=1in,
+    right=1in,
+    top=1.15in,
+    bottom=1in,
+    headheight=15pt,
+    headsep=24pt
+]{geometry}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{Adam Omarali}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+%\usepackage{wrapfig}
+\setlength{\parskip}{0.7\baselineskip} % space between paragraphs
+\setlength{\parindent}{0 cm} % increase this if you like paragraphs to be indented
+\usepackage{hyperref}
+\usepackage{xcolor}
+\counterwithout{figure}{section}
+
+\newcommand{\e}{\mathrm{e}}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+    \thispagestyle{empty}
+    \centering
+    \vspace*{\fill}
+    {\LARGE\bfseries Diode Linearization via Small Signal Model\par}
+    \vspace{1.5cm}
+    {\large Adam Omarali\par}
+    \vspace{0.75cm}
+    {\large September 16 2026\par}
+    \vspace{0.25cm}
+    {\large Course: ETIN71\par}
+    \vspace*{\fill}
+\end{titlepage}
+
+\setcounter{page}{1}
+\hypersetup{pageanchor=true}
+
+\section{Part 1: Taylor Approximation}
+
+Our goal is to find the diode current $i_D(v_D)_{|Q}$, at operating point $Q: (i_D, v_D) = (I_D, V_D)$. 
+There are small signal variations about the operating point given by $i_D = I_D + i_d$ and $v_D = V_D + v_d$.
+Substituting into the current equation for the pn-junction diode we have:
+
+{
+    \begin{align*}
+        i_D(v_D)
+            &= I_s\left(e^{v_D/nV_T} - 1\right) \\
+        i_D(V_D + v_d)
+            &= I_s\left(e^{(V_D + v_d)/nV_T} - 1\right) \\
+            &= I_s\left(e^{V_D/nV_T}e^{v_d/nV_T} - 1\right)
+    \end{align*}
+}
+
+Since $V_D$ is a constant, its exponential term evaluates to a constant. For the other exponential term, we will apply a 2nd order Taylor Series Expansion about $v_d = 0$.
+
+\[
+\begin{aligned}
+f(v_d) &= e^{v_d/(nV_T)},
+& f(0) &= 1 \\
+f'(v_d) &= \frac{1}{nV_T}e^{v_d/(nV_T)},
+& f'(0) &= \frac{1}{nV_T} \\
+f''(v_d) &= \frac{1}{n^2V_T^2}e^{v_d/(nV_T)},
+& f''(0) &= \frac{1}{n^2V_T^2} \\ \\ 
+f(v_d) &\approx 1 + \frac{v_d}{nV_T} + \frac{v_d^2}{2n^2V_T^2}
+\end{aligned}
+\]
+
+We can also consider when $v_d = 0$:
+{
+    \begin{align}
+        I_D = I_s(e^{V_D/nV_T} - 1) \\
+        I_D + I_s = I_se^{V_D/nV_T}
+    \end{align}
+}
+Now substituting into the original equation we arrive at the 2nd order Taylor Approximation for the Diode IV relationship:
+{
+    \begin{align*}
+        i_D(V_D + v_d)
+            &= I_s\left(e^{V_D/nV_T}(1 + \frac{v_d}{nV_T} + \frac{v_d^2}{2n^2V_T^2}) - 1\right) \\
+            &= I_s(e^{V_D/nV_T} - 1) + I_se^{V_D/nV_T}(\frac{v_d}{nV_T} + \frac{v_d^2}{2n^2V_T^2}) \\
+    \end{align*}
+}
+Substituting in equation 1 and 2:
+{
+    \begin{align*}
+        i_D(V_D + v_d)
+            &= I_D + (I_D + I_s)(\frac{v_d}{nV_T} + \frac{v_d^2}{2n^2V_T^2}) \\
+    \end{align*}
+}
+
+\pagebreak
+\section{Part 2: Small Signal Limit}
+We now want to understand when a linear small signal approximation is valid. From our Taylor Series terms above this is simply:
+
+$$f(v_d) \approx 1 + \frac{v_d}{nV_T}$$
+
+This approximation is valid if the error is within some threshold we define. The error ($E$) for the Taylor Series is given by:
+
+$$E = e^{v_d/(nV_T)} - (1 + \frac{v_d}{nV_T}) = R(v_d)$$
+
+Where $R(v_d)$ is the remainder given by the sum of the remaining Taylor Series terms. Our goal is to find an inequality such that the remainder is very small. Consider the formula for the k\textsuperscript{th} term of this Taylor Series:
+
+$$T_k =  \frac{v_d^k}{k!n^kV_T^k}$$
+
+The ratio of two consecutive terms is as follows:
+{
+    \begin{align*}
+        |\frac{T_{k+1}}{T_k}| &= |\frac{v_d^{k+1}}{(k+1)!n^{k+1}V_T^{k+1}} \frac{k!n^kV_T^k}{v_d^k}| \\
+        &= |\frac{v_d}{(k+1)nV_T}| \\
+    \end{align*}
+}
+
+Let's consider the ratio between the 1\textsuperscript{st} and 2\textsuperscript{nd} Taylor Polynomial terms:
+{
+    \begin{align*}
+        |\frac{T_2}{T_1}| &\ll 1 \\
+        |\frac{v_d}{2nV_T}| &\ll 1 \\
+        |v_d| &\ll 2nV_T
+    \end{align*}
+}
+Since we are more concerned with the order of magnitude, we can remove the constant factor:
+{
+    \begin{align}
+        |v_d| &\ll nV_T
+    \end{align}
+}
+
+Under this inequality, we also note that each subsequent Taylor term is smaller than its previous term.
+{
+    \begin{align*}
+        |\frac{T_{k+1}}{T_k}| &\ll 1 \\
+        |\frac{v_d}{(k+1)nV_T}| &\ll 1 \\
+        |v_d| &\ll (k+1)nV_T \\
+    \end{align*}
+}
+Therefore, inequality (3) bounding the ratio of the 1\textsuperscript{st} and 2\textsuperscript{nd} Taylor Polynomial terms is sufficient for a good approximation. A linear approximation of the diode IV relationship applies when the absolute value of the small signal voltage ($v_d$) is much smaller than the thermal voltage ($V_T$) multiplied by the diode ideality factor ($n$). At $T=300\,\mathrm{K}$, $V_T \approx 26\,\mathrm{mV}$, while $n$ is typically between 1 and 2. 
+
+\end{document}
